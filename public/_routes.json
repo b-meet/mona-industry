@@ -3,7 +3,5 @@
     "include": [
         "/*"
     ],
-    "exclude": [
-        "/_next/static/*"
-    ]
+    "exclude": []
 }
