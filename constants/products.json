@@ -1,0 +1,50 @@
+[
+  {
+    "id": "prod-1",
+    "name": "Copper Wire Scrap",
+    "slug": "copper-wire-scrap",
+    "category": "Scrap Materials",
+    "description": "High-purity bare bright copper wire scrap, ideal for remelting and industrial applications. 99.9% purity.",
+    "features": [
+      "99.9% Purity Level",
+      "Ready for remelting",
+      "Sourced from industrial cables"
+    ]
+  },
+  {
+    "id": "prod-2",
+    "name": "Copper Cathode",
+    "slug": "copper-cathode",
+    "category": "Raw Materials",
+    "description": "Grade A copper cathodes produced using the latest electrolysis technology, suitable for high-end electronic and industrial uses.",
+    "features": [
+      "LME Registered Grade A",
+      "Dimensions: 1m x 1m x 10mm",
+      "Weight: Approx 125kg per sheet"
+    ]
+  },
+  {
+    "id": "prod-3",
+    "name": "Copper Sheets & Plates",
+    "slug": "copper-sheets-plates",
+    "category": "Finished Goods",
+    "description": "Premium industrial grade copper sheets and plates designed for excellent thermal and electrical conductivity.",
+    "features": [
+      "Custom thickness available",
+      "High corrosion resistance",
+      "Excellent machinability"
+    ]
+  },
+  {
+    "id": "prod-4",
+    "name": "Copper Rods",
+    "slug": "copper-rods",
+    "category": "Finished Goods",
+    "description": "Extruded copper rods suitable for electrical grounding, heavy machinery components, and construction.",
+    "features": [
+      "Available in round, square, or hex",
+      "High electrical conductivity",
+      "Durable and corrosion-resistant"
+    ]
+  }
+]
