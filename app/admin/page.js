@@ -11,15 +11,30 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Very rudimentary auth since the user wanted something completely free and simple built-in
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Default password 'admin123' just for the showcase.
-        if (password === 'admin123') {
-            setIsAuthenticated(true);
-            fetchInquiries();
-        } else {
-            setError('Invalid password');
+        setError('');
+
+        try {
+            const response = await fetch('/api/admin-auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setIsAuthenticated(true);
+                fetchInquiries();
+            } else {
+                setError(data.message || 'Invalid password');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('An error occurred during authentication.');
         }
     };
 
@@ -57,7 +72,7 @@ export default function AdminDashboard() {
                             <input
                                 type="password"
                                 className="input-base"
-                                placeholder="Password (admin123)"
+                                placeholder="Password"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value); setError(''); }}
                             />
