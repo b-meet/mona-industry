@@ -1,7 +1,6 @@
-import Link from 'next/link';
-import { ArrowRight, Factory, FlaskConical, Handshake, Recycle, Target, Users } from 'lucide-react';
+import { Factory, FlaskConical, Handshake, Recycle, Target } from 'lucide-react';
 import Reveal from '@/components/Reveal';
-import { company, addressLine, stats } from '@/constants/company';
+import { company, stats } from '@/constants/company';
 import { productCount } from '@/lib/catalog';
 
 export const metadata = {
@@ -49,12 +48,13 @@ export default function About() {
                 <div className="container">
                     <span className="eyebrow">About us</span>
                     <h1 className="page-title" style={{ marginBottom: '1.25rem', maxWidth: 760 }}>
-                        A cable plant built around what happens after the sale
+                        A cable plant built to specification
                     </h1>
                     <p className="subtitle" style={{ color: 'rgba(255,255,255,0.76)', maxWidth: 720 }}>
-                        {company.name} has manufactured wires, cables, cordsets and wire harnesses from {company.address.city},
-                        Gujarat since {company.established}. Today that is {productCount} standard product lines, plus a
-                        steady stream of constructions built to customer drawings.
+                        {company.name} manufactures wires, cables, power cords and wire harnesses from its plant in{' '}
+                        {company.address.city}, {company.address.state} — {productCount} standard product lines across
+                        automotive, elevator, solar, instrumentation and industrial cable, plus constructions built to
+                        customer drawings.
                     </p>
                 </div>
             </section>
@@ -153,21 +153,6 @@ export default function About() {
                 </div>
             </section>
 
-            <section className="section section-deep">
-                <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
-                    <div>
-                        <Users size={28} color="var(--copper-light)" />
-                        <h2 className="section-title" style={{ margin: '1.25rem 0 1rem' }}>Come and see the plant</h2>
-                        <p className="subtitle" style={{ color: 'rgba(255,255,255,0.76)' }}>
-                            Buyers who audit their cable suppliers are welcome on site. {addressLine}.
-                        </p>
-                    </div>
-                    <div className="btn-row" style={{ justifyContent: 'flex-end' }}>
-                        <Link href="/contact" className="btn-primary">Arrange a visit <ArrowRight size={18} /></Link>
-                        <Link href="/certifications" className="btn-secondary">View certifications</Link>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }

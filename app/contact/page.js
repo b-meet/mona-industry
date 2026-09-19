@@ -50,11 +50,6 @@ const helpItems = [
         title: 'Samples & first articles',
         detail: 'Sample lengths and documented first articles are available before any series order is committed.',
     },
-    {
-        icon: MapPin,
-        title: 'Plant visits & audits',
-        detail: 'Vendor audits and customer visits are welcome. Tell us the date and what you need to see.',
-    },
 ];
 
 export default function Contact() {
