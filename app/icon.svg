@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mona Industry">
+  <title>Mona Industry</title>
+  <desc>A cable seen end-on: copper conductor ring around a copper core, on an ink ground.</desc>
+  <defs>
+    <!-- Copper stops from components/CableGraphic.js, so the tab icon and the
+         hero artwork read as the same material. -->
+    <linearGradient id="conductor" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0%" stop-color="#e8b98a"/>
+      <stop offset="45%" stop-color="#b87333"/>
+      <stop offset="100%" stop-color="#7d4a1d"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#d69554"/>
+      <stop offset="100%" stop-color="#8a5322"/>
+    </linearGradient>
+  </defs>
+
+  <!-- The ink ground doubles as the outer sheath, which keeps two tones on
+       screen at 16px instead of three competing ones. -->
+  <rect width="512" height="512" rx="104" fill="#0b1524"/>
+
+  <!-- Conductor ring: an even-odd fill rather than a stroke, so the hole stays
+       exactly on the ink colour at every scale. -->
+  <path fill="url(#conductor)" fill-rule="evenodd"
+        d="M256 66a190 190 0 1 0 0 380 190 190 0 1 0 0-380Z
+           M256 152a104 104 0 1 1 0 208 104 104 0 1 1 0-208Z"/>
+
+  <circle cx="256" cy="256" r="54" fill="url(#core)"/>
+</svg>
