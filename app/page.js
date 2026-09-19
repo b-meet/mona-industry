@@ -20,7 +20,8 @@ import {
 import Reveal from '@/components/Reveal';
 import CableGraphic from '@/components/CableGraphic';
 import { categories, productCount } from '@/lib/catalog';
-import { company, stats } from '@/constants/company';
+import { company, stats, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const categoryIcons = {
     'wires-cables': Cable,
@@ -419,6 +420,14 @@ export default function Home() {
                                 <Link href="/contact" className="btn-primary">
                                     Request a quotation <ArrowRight size={18} />
                                 </Link>
+                                <a
+                                    href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-whatsapp"
+                                >
+                                    <WhatsAppIcon size={18} /> WhatsApp us
+                                </a>
                                 <Link href="/products" className="btn-secondary">
                                     Browse {productCount} products
                                 </Link>

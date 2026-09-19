@@ -1,6 +1,7 @@
 import { MapPin, Phone, Mail, Clock, Building2, Truck } from 'lucide-react';
 import InquiryForm from '@/components/InquiryForm';
-import { company, addressLine } from '@/constants/company';
+import { company, addressLine, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export const metadata = {
     title: 'Contact',
@@ -19,6 +20,13 @@ const contactPoints = [
         label: 'Phone',
         value: company.phone,
         href: `tel:${company.phoneHref}`,
+    },
+    {
+        icon: WhatsAppIcon,
+        label: 'WhatsApp',
+        value: company.phone,
+        href: whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.'),
+        external: true,
     },
     {
         icon: Mail,
@@ -83,7 +91,13 @@ export default function Contact() {
                                                 {point.label}
                                             </strong>
                                             {point.href ? (
-                                                <a href={point.href} style={{ color: 'var(--ink-900)', fontWeight: 500 }}>{point.value}</a>
+                                                <a
+                                                    href={point.href}
+                                                    style={{ color: 'var(--ink-900)', fontWeight: 500 }}
+                                                    {...(point.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                                >
+                                                    {point.value}
+                                                </a>
                                             ) : (
                                                 <span style={{ color: 'var(--ink-700)' }}>{point.value}</span>
                                             )}
@@ -111,9 +125,36 @@ export default function Contact() {
 
                     <div className="card card-pad">
                         <h2 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Send an enquiry</h2>
-                        <p className="text-subtle" style={{ fontSize: '0.94rem', marginBottom: '1.75rem' }}>
+                        <p className="text-subtle" style={{ fontSize: '0.94rem', marginBottom: '1.5rem' }}>
                             Fields marked * are required. Add as much of the specification as you have.
                         </p>
+
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                gap: '1rem',
+                                padding: '1rem 1.15rem',
+                                marginBottom: '1.75rem',
+                                background: 'var(--surface-muted)',
+                                border: '1px solid var(--line)',
+                                borderRadius: 'var(--radius-md)',
+                            }}
+                        >
+                            <p className="text-subtle" style={{ fontSize: '0.9rem', flex: '1 1 200px', margin: 0 }}>
+                                In a hurry? Message us and get a reply on your phone.
+                            </p>
+                            <a
+                                href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-whatsapp"
+                                style={{ padding: '0.65rem 1.25rem', fontSize: '0.9rem' }}
+                            >
+                                <WhatsAppIcon size={17} /> WhatsApp us
+                            </a>
+                        </div>
                         <InquiryForm />
                     </div>
                 </div>

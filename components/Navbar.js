@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { company, addressLine } from '@/constants/company';
+import { company, addressLine, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -58,6 +59,14 @@ export default function Navbar() {
                             </a>
                             <a className="topbar-item topbar-email" href={`mailto:${company.email}`}>
                                 <Mail size={14} /> {company.email}
+                            </a>
+                            <a
+                                className="topbar-item"
+                                href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <WhatsAppIcon size={14} /> WhatsApp
                             </a>
                         </div>
                     </div>
@@ -154,6 +163,14 @@ export default function Navbar() {
                             <Link href="/contact" className="btn-primary btn-block" onClick={() => setMobileMenuOpen(false)}>
                                 Request a Quote
                             </Link>
+                            <a
+                                href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-whatsapp btn-block"
+                            >
+                                <WhatsAppIcon size={18} /> Chat on WhatsApp
+                            </a>
                             <a href={`tel:${company.phoneHref}`} className="btn-secondary btn-block">
                                 <Phone size={16} /> {company.phone}
                             </a>

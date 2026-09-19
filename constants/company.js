@@ -20,9 +20,9 @@ export const company = {
         postalCode: '395003',
         country: 'India',
     },
-    phone: '+91 98765 43210',
-    phoneHref: '+919876543210',
-    whatsappHref: '919876543210',
+    phone: '+91 89801 16179',
+    phoneHref: '+918980116179',
+    whatsappHref: '918980116179',
     email: 'info@monaindustry.com',
     salesEmail: 'sales@monaindustry.com',
     careersEmail: 'careers@monaindustry.com',
@@ -38,6 +38,15 @@ export const addressLine = [
     `${company.address.state} ${company.address.postalCode}`,
     company.address.country,
 ].join(', ');
+
+/**
+ * A wa.me link with an optional prefilled first message. Falls back to a plain
+ * chat link when no message is given.
+ */
+export function whatsappUrl(message) {
+    const base = `https://wa.me/${company.whatsappHref}`;
+    return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
 
 export const stats = [
     { value: '25+', label: 'Years in cable manufacturing' },

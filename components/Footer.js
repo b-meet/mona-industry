@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
-import { company, addressLine } from '@/constants/company';
+import { company, addressLine, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { categories } from '@/lib/catalog';
 
 const quickLinks = [
@@ -70,6 +71,16 @@ export default function Footer() {
                             <li style={{ display: 'flex', gap: '0.75rem' }}>
                                 <Mail size={18} style={{ flexShrink: 0, marginTop: 2, color: 'var(--copper-light)' }} />
                                 <a href={`mailto:${company.email}`}>{company.email}</a>
+                            </li>
+                            <li style={{ display: 'flex', gap: '0.75rem' }}>
+                                <WhatsAppIcon size={18} style={{ flexShrink: 0, marginTop: 2, color: 'var(--whatsapp)' }} />
+                                <a
+                                    href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Chat on WhatsApp
+                                </a>
                             </li>
                             <li style={{ display: 'flex', gap: '0.75rem' }}>
                                 <Clock size={18} style={{ flexShrink: 0, marginTop: 2, color: 'var(--copper-light)' }} />

@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppFab from "@/components/WhatsAppFab";
 import { company } from "@/constants/company";
 
 export const metadata = {
@@ -80,6 +81,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
+        <WhatsAppFab />
       </body>
     </html>
   );

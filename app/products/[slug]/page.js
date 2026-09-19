@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, CheckCircle2, FileCheck2 } from 'lucide-react';
 import InquiryForm from '@/components/InquiryForm';
 import { products, getProduct, getRelatedProducts } from '@/lib/catalog';
-import { company } from '@/constants/company';
+import { company, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export async function generateStaticParams() {
     return products.map((product) => ({ slug: product.slug }));
@@ -140,6 +141,17 @@ export default async function ProductDetail({ params }) {
                             Tell us the size, length and quantity you need. Our commercial team replies with a written
                             quotation and the construction we would supply.
                         </p>
+
+                        <div className="btn-row" style={{ marginTop: '1.5rem' }}>
+                            <a
+                                href={whatsappUrl(`Hello Mona Industry, I would like a quotation for ${product.name}.`)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-whatsapp"
+                            >
+                                <WhatsAppIcon size={18} /> Ask about this on WhatsApp
+                            </a>
+                        </div>
                     </div>
 
                     <div className="card card-pad">
