@@ -26,6 +26,13 @@ It creates the table, its indexes, row level security policies and the private
 `applications` storage bucket for CVs. It is idempotent — running it twice, or
 running it on a project that already has an older `inquiries` table, is safe.
 
+Creating a table by SQL does not always refresh the Data API's schema cache, and
+until it does every request answers 404. Follow the migration with:
+
+```sql
+notify pgrst, 'reload schema';
+```
+
 (`20260919_unified_submissions.sql` is the older migration that only *extends*
 an existing table. On a fresh project, run the `init` one instead.)
 
@@ -58,6 +65,8 @@ error there names the cause:
 | --- | --- |
 | `Supabase is not configured…` | The env vars were missing at build time — see step 2, then rebuild. |
 | `…the "inquiries" table does not exist` | Run the migration — step 1. |
+| `…the Data API does not know the "inquiries" table (404)` | PostgREST's schema cache is stale. Run `notify pgrst, 'reload schema';` in the SQL Editor, and check Settings → Data API exposes the `public` schema. |
+| `…the anon key was rejected` | URL and key belong to different projects. |
 | `…row level security rejected the request` | The policies did not apply; re-run section 3 of the migration. |
 
 ## Hardening (optional)
