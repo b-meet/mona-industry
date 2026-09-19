@@ -5,57 +5,18 @@ import { Lock, LogOut, Loader2, Package, Paperclip, RefreshCw, Search, Mail, Pho
 import {
     listSubmissions,
     updateSubmissionStatus,
-    getResumeUrl,
+    resumeUrl,
     parseProducts,
     statusOptionsFor,
     SUBMISSION_TYPES,
+    masterSignIn,
+    masterSignOut,
+    masterSessionIsActive,
 } from '@/lib/submissions';
 
-// Static export: there is no server to check a password against, so the gate is
-// a build-time value. It keeps the screen out of casual reach — see the note in
-// supabase/migrations for what actually protects the rows.
-const MASTER_PASSWORD = process.env.NEXT_PUBLIC_MASTER_PASSWORD || '';
-
-// Staying signed in across reloads and tabs. This is a convenience only: the
-// flag lives in the browser, so it grants nothing the anon key does not already
-// allow. Change SESSION_HOURS to adjust how long a sign-in lasts.
-const SESSION_KEY = 'mona.master.session';
-const SESSION_HOURS = 10;
-
-function readSession() {
-    try {
-        const raw = window.localStorage.getItem(SESSION_KEY);
-        if (!raw) return false;
-        const { expiresAt } = JSON.parse(raw);
-        if (typeof expiresAt !== 'number' || Date.now() >= expiresAt) {
-            window.localStorage.removeItem(SESSION_KEY);
-            return false;
-        }
-        return true;
-    } catch {
-        // Private mode, blocked storage, or a corrupt value: just sign in again.
-        return false;
-    }
-}
-
-function writeSession() {
-    try {
-        window.localStorage.setItem(
-            SESSION_KEY,
-            JSON.stringify({ expiresAt: Date.now() + SESSION_HOURS * 60 * 60 * 1000 })
-        );
-    } catch {
-        // Not being able to persist is not a reason to block the sign-in.
-    }
-}
-
-function clearSession() {
-    try {
-        window.localStorage.removeItem(SESSION_KEY);
-    } catch {
-        // Nothing to do.
-    }
-}
+// The password is checked by POST /api/master/session, which sets an httpOnly
+// cookie. Nothing about the credential reaches the bundle, and the cookie
+// cannot be forged or extended from the browser — see lib/master-session.js.
 
 const TYPE_FILTERS = [
     { key: 'all', label: 'All' },
@@ -83,35 +44,19 @@ function TypeBadge({ type }) {
 }
 
 function ResumeLink({ row }) {
-    const [loading, setLoading] = useState(false);
-    const path = row.payload?.resume_path;
+    if (!row.payload?.resume_path) return null;
 
-    if (!path) return null;
-
-    const open = async () => {
-        setLoading(true);
-        try {
-            const url = await getResumeUrl(path);
-            window.open(url, '_blank', 'noopener,noreferrer');
-        } catch (err) {
-            console.error(err);
-            alert('Could not open that CV. Check the storage bucket policy.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    // The CV is streamed back through /api, so this is an ordinary link on this
+    // origin rather than a signed storage URL.
     return (
-        <button
-            type="button"
-            onClick={open}
-            disabled={loading}
+        <a
+            href={resumeUrl(row.id)}
             className="btn-ghost"
             style={{ fontSize: '0.85rem', padding: 0 }}
         >
-            {loading ? <Loader2 size={14} className="spin" /> : <Paperclip size={14} />}
+            <Paperclip size={14} />
             {row.payload?.resume_name || 'Download CV'}
-        </button>
+        </a>
     );
 }
 
@@ -133,44 +78,49 @@ export default function MasterDashboard() {
             setRows(await listSubmissions());
         } catch (err) {
             console.error(err);
+            if (err.message === 'NOT_AUTHENTICATED') {
+                setIsAuthenticated(false);
+                setError('Your session expired. Please sign in again.');
+                return;
+            }
             setError(`Failed to load submissions: ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
 
-    const restoreSession = () => {
-        if (readSession()) {
-            setIsAuthenticated(true);
-            load();
-        }
-        setCheckingSession(false);
-    };
-
-    // Storage is only readable on the client, so this has to run after mount.
-    // Deliberately mount-only: re-running it would re-read a session we have
-    // already resolved.
+    // The session lives in an httpOnly cookie, so only the server can say
+    // whether it is still good. Mount-only: re-running would re-ask a question
+    // already answered.
     useEffect(() => {
-        restoreSession();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        (async () => {
+            if (await masterSessionIsActive()) {
+                setIsAuthenticated(true);
+                load();
+            }
+            setCheckingSession(false);
+        })();
     }, []);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+        setError('');
 
-        if (!MASTER_PASSWORD) {
-            setError('NEXT_PUBLIC_MASTER_PASSWORD is not set for this build.');
-            return;
-        }
-
-        if (password === MASTER_PASSWORD) {
-            writeSession();
+        try {
+            await masterSignIn(password);
             setIsAuthenticated(true);
-            setError('');
+            setPassword('');
             load();
-        } else {
-            setError('Invalid password');
+        } catch (err) {
+            setError(err.message);
         }
+    };
+
+    const handleLogout = async () => {
+        await masterSignOut();
+        setIsAuthenticated(false);
+        setPassword('');
+        setRows([]);
     };
 
     const changeStatus = async (id, status) => {
@@ -180,7 +130,12 @@ export default function MasterDashboard() {
             setRows((prev) => prev.map((row) => (row.id === id ? { ...row, status } : row)));
         } catch (err) {
             console.error(err);
-            alert(`Failed to update status: ${err.message}`);
+            if (err.message === 'NOT_AUTHENTICATED') {
+                setIsAuthenticated(false);
+                setError('Your session expired. Please sign in again.');
+            } else {
+                alert(`Failed to update status: ${err.message}`);
+            }
         } finally {
             setUpdatingId(null);
         }
@@ -264,7 +219,7 @@ export default function MasterDashboard() {
                             <RefreshCw size={15} /> Refresh
                         </button>
                         <button
-                            onClick={() => { clearSession(); setIsAuthenticated(false); setPassword(''); setRows([]); }}
+                            onClick={handleLogout}
                             className="btn-secondary"
                             style={{ fontSize: '0.88rem', padding: '0.6rem 1.1rem' }}
                         >

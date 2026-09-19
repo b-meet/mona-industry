@@ -13,6 +13,9 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
         phone: '',
         email: '',
         details: '',
+        // Honeypot: hidden from people, filled in by bots that complete every
+        // input they find. The API rejects any submission that carries it.
+        website: '',
     });
 
     const [inquireSpecific, setInquireSpecific] = useState(!!initialProduct);
@@ -107,6 +110,7 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
                         : 'General enquiry',
                 details: formData.details || null,
                 products: chosenProducts,
+                website: formData.website,
             });
 
             setSuccess(true);
@@ -308,6 +312,19 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
                     )}
                 </div>
             )}
+
+            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
+                <label htmlFor="inq-website">Do not fill this in</label>
+                <input
+                    id="inq-website"
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                />
+            </div>
 
             <div>
                 <label className="field-label" htmlFor="inq-details">Requirement details</label>

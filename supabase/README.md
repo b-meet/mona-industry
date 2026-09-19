@@ -2,77 +2,96 @@
 
 Everything the site collects — product enquiries, general/support messages and
 job applications — goes into one table, `public.inquiries`, separated by a
-`type` column. The browser talks to Supabase directly: the site is a static
-export (`output: 'export'`), so nothing under `app/api/` is deployed and the
-files in `lib/` are the actual API layer.
+`type` column.
+
+**The browser never talks to Supabase.** It calls this site's own API, and the
+route handlers hold the credentials:
+
+```
+browser  ──POST /api/enquiries/──▶  route handler  ──service-role key──▶  Supabase
+```
+
+So the network tab only ever shows your own domain, the anon key is gone, and
+the table is closed to anonymous access entirely.
 
 | Where | What it does |
 | --- | --- |
-| `lib/supabase.js` | Creates the client from the two public env vars. |
-| `lib/submissions.js` | `createSubmission`, `listSubmissions`, `updateSubmissionStatus`, `getResumeUrl`. |
-| `components/InquiryForm.js` | Enquiry / support form → `createSubmission`. |
-| `components/ApplicationForm.js` | Job application + CV upload → `createSubmission`. |
-| `app/master/page.js` | Reads every submission and updates status. |
+| `app/api/enquiries/route.js` | `POST` — public. Validates, honeypot-checks, uploads any CV, inserts the row. |
+| `app/api/master/session/route.js` | `GET` / `POST` / `DELETE` — the /master sign-in. Sets an httpOnly cookie. |
+| `app/api/submissions/route.js` | `GET` — every submission. Requires the cookie. |
+| `app/api/submissions/[id]/route.js` | `PATCH` — change status. Requires the cookie. |
+| `app/api/submissions/[id]/resume/route.js` | `GET` — streams a CV back through this origin. Requires the cookie. |
+| `lib/supabase-server.js` | Server-only client. Never import it from `app/` or `components/`. |
+| `lib/submissions.js` | The browser's `fetch` wrapper around those routes. |
 
 ## 1. Create the schema
 
-In the Supabase dashboard → **SQL Editor**, paste and run:
+Supabase dashboard → **SQL Editor** → run:
 
 ```
 supabase/migrations/20260919120000_init_submissions.sql
 ```
 
-It creates the table, its indexes, row level security policies and the private
-`applications` storage bucket for CVs. It is idempotent — running it twice, or
-running it on a project that already has an older `inquiries` table, is safe.
+It creates the table, its indexes, RLS and the private `applications` bucket
+for CVs. Idempotent — safe to run twice.
 
-Creating a table by SQL does not always refresh the Data API's schema cache, and
-until it does every request answers 404. Follow the migration with:
+Creating a table by SQL does not always refresh the Data API's schema cache,
+and until it does every request answers 404. Follow it with:
 
 ```sql
 notify pgrst, 'reload schema';
 ```
 
-(`20260919_unified_submissions.sql` is the older migration that only *extends*
-an existing table. On a fresh project, run the `init` one instead.)
+## 2. Close the table to the anon role
 
-## 2. Point the site at the project
+Once the site is deployed with the API routes (not a static export), run:
 
-Dashboard → **Project Settings → API** gives you the two values. Put them in
-`.env.local` for local development:
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon / publishable key>
-NEXT_PUBLIC_MASTER_PASSWORD=<password for /master>
+```
+supabase/migrations/20260919140000_lock_down_anon.sql
 ```
 
-Both Supabase values are public by design — they are inlined into the JS bundle
-at build time, and row level security is what decides what the anon key may do.
+This drops the anonymous insert/read/update policies. With RLS on and no
+policies, the anon role can do nothing; the route handlers use the service-role
+key, which bypasses RLS, so they are unaffected.
 
-**They are read at build time, not at runtime.** Setting them only on the
-hosting dashboard after the fact does nothing: set them in the build
-environment (Cloudflare Pages / Vercel → project settings → environment
-variables) and then trigger a fresh build.
+## 3. Environment variables
 
-## 3. Check it
+None of these carry `NEXT_PUBLIC_`, so none of them reach the browser bundle.
 
-Submit the form on `/contact` and open `/master`. If the form shows
-"We could not submit your enquiry just now", open the browser console — the
-error there names the cause:
-
-| Console message | Fix |
+| Variable | Where to find it |
 | --- | --- |
-| `Supabase is not configured…` | The env vars were missing at build time — see step 2, then rebuild. |
+| `SUPABASE_URL` | Settings → Data API → *Project URL*. Bare origin, **no** `/rest/v1`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Settings → API Keys → `service_role` (the secret one). |
+| `MASTER_PASSWORD` | Your choice. Gates `/master`. |
+| `MASTER_SESSION_SECRET` | Optional. Signs the session cookie; defaults to `MASTER_PASSWORD`. |
+
+Locally they go in `.env.local`; on Vercel, **Settings → Environment
+Variables**, then redeploy.
+
+`SUPABASE_SERVICE_ROLE_KEY` bypasses row level security. It must never be given
+a `NEXT_PUBLIC_` prefix, logged, or committed.
+
+## 4. Check it
+
+Submit the form on `/contact`, then open `/master`. The Network tab should show
+a `POST` to `/api/enquiries/` on your own domain and nothing pointing at
+`supabase.co`.
+
+If something fails, the browser shows a plain message and the **server** log
+(Vercel → Deployments → Functions, or your terminal) carries the detail:
+
+| Server log says | Fix |
+| --- | --- |
+| `Supabase is not configured on the server…` | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` missing — step 3, then redeploy. |
+| `…the Data API does not know the "inquiries" table` | Schema cache is stale — `notify pgrst, 'reload schema';`. |
 | `…the "inquiries" table does not exist` | Run the migration — step 1. |
-| `…the Data API does not know the "inquiries" table (404)` | PostgREST's schema cache is stale. Run `notify pgrst, 'reload schema';` in the SQL Editor, and check Settings → Data API exposes the `public` schema. |
-| `…the anon key was rejected` | URL and key belong to different projects. |
-| `…row level security rejected the request` | The policies did not apply; re-run section 3 of the migration. |
+| `…row level security rejected the request` | `SUPABASE_SERVICE_ROLE_KEY` holds the anon key, not the service_role key. |
+| `MASTER_PASSWORD is not set` | Add it and redeploy. |
 
-## Hardening (optional)
+## Notes
 
-The anon key ships in the bundle, so the "anon can read" policy means anyone who
-reads the bundle can query the table directly — the master password protects the
-screen, not the data. Section 5 of the migration has the authenticated-only
-policies that close this, together with the change needed in `/master` (sign in
-with `supabase.auth.signInWithPassword()` instead of the build-time password).
+- **CV size** is capped at 4 MB, below Vercel's ~4.5 MB serverless body limit,
+  because the file now passes through a route handler on its way to storage.
+- **Spam**: the enquiry form carries a hidden honeypot field; anything that
+  arrives with it filled in is rejected. If real spam gets through, rate
+  limiting belongs in `app/api/enquiries/route.js`.
