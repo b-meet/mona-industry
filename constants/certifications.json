@@ -1,0 +1,106 @@
+{
+  "_note": "IMPORTANT: verify every entry below against the certificates Mona Industry actually holds. Fill in the real certificate numbers, issuing bodies and validity dates, and delete any entry that is not held. Publishing a certification claim that cannot be evidenced is a legal and commercial risk.",
+  "groups": [
+    {
+      "title": "Management Systems",
+      "description": "Certified systems that govern how we plan, produce and release every batch.",
+      "items": [
+        {
+          "name": "ISO 9001:2015",
+          "scope": "Quality management system covering design, manufacture and supply of wires, cables, cordsets and wire harnesses.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        },
+        {
+          "name": "ISO 14001:2015",
+          "scope": "Environmental management system covering the Surat manufacturing facility.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        }
+      ]
+    },
+    {
+      "title": "Product Approvals",
+      "description": "Approvals held against the product standards our customers specify.",
+      "items": [
+        {
+          "name": "BIS Licence — IS 694",
+          "scope": "PVC insulated single core cables for working voltages up to and including 1100 V.",
+          "issuer": "Bureau of Indian Standards",
+          "certificateNumber": "",
+          "validity": ""
+        },
+        {
+          "name": "TUV / EN 50618",
+          "scope": "Halogen-free cross-linked DC cable for photovoltaic systems, 1.5 kV DC.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        },
+        {
+          "name": "Cordset Safety Approvals",
+          "scope": "Plug and connector approvals held per destination market for moulded cordsets.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        }
+      ]
+    },
+    {
+      "title": "Material Compliance",
+      "description": "Declarations covering restricted substances in the compounds and metals we buy.",
+      "items": [
+        {
+          "name": "RoHS Directive 2011/65/EU",
+          "scope": "Restriction of hazardous substances across insulation compounds, metals and plating.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        },
+        {
+          "name": "REACH SVHC Declaration",
+          "scope": "Substances of very high concern declaration for supplied materials.",
+          "issuer": "",
+          "certificateNumber": "",
+          "validity": ""
+        }
+      ]
+    }
+  ],
+  "testing": [
+    {
+      "name": "Conductor resistance",
+      "detail": "Measured against the class and size limits in IS 8130 / IEC 60228 on every production lot."
+    },
+    {
+      "name": "High voltage (spark & hipot) test",
+      "detail": "In-line spark testing during extrusion, plus hipot on finished cordsets and harnesses."
+    },
+    {
+      "name": "Insulation resistance",
+      "detail": "Checked after water immersion for the durations the relevant product standard calls for."
+    },
+    {
+      "name": "Tensile & elongation",
+      "detail": "Insulation and sheath compounds tested before and after thermal ageing."
+    },
+    {
+      "name": "Flammability",
+      "detail": "Single-wire flame testing to IEC 60332-1 for flame-retardant constructions."
+    },
+    {
+      "name": "Dimensional inspection",
+      "detail": "Wall thickness, eccentricity and overall diameter verified against the approved drawing."
+    },
+    {
+      "name": "Crimp pull-off force",
+      "detail": "Crimp height and pull-off force recorded against specification for harness terminations."
+    },
+    {
+      "name": "Continuity & mis-wire",
+      "detail": "100% continuity and mis-wire testing on finished harnesses and cordsets."
+    }
+  ]
+}

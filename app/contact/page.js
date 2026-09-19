@@ -1,84 +1,164 @@
-"use client";
-
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
-// We'll use the generic form submission endpoint for the basic contact form as well, 
-// though the requirement mainly specifies the robust inquiry form for products.
-// We can use a simpler version here or just a standard controlled form.
+import { MapPin, Phone, Mail, Clock, Building2, Truck } from 'lucide-react';
 import InquiryForm from '@/components/InquiryForm';
+import { company, addressLine, whatsappUrl } from '@/constants/company';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
+
+export const metadata = {
+    title: 'Contact',
+    description:
+        'Contact Mona Industry in Surat, Gujarat for cable, power cord and wire harness enquiries, quotations, samples and plant visits.',
+};
+
+const contactPoints = [
+    {
+        icon: MapPin,
+        label: 'Plant & office',
+        value: addressLine,
+    },
+    {
+        icon: Phone,
+        label: 'Phone',
+        value: company.phone,
+        href: `tel:${company.phoneHref}`,
+    },
+    {
+        icon: WhatsAppIcon,
+        label: 'WhatsApp',
+        value: company.phone,
+        href: whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.'),
+        external: true,
+    },
+    {
+        icon: Mail,
+        label: 'General enquiries',
+        value: company.email,
+        href: `mailto:${company.email}`,
+    },
+    {
+        icon: Building2,
+        label: 'Sales & quotations',
+        value: company.salesEmail,
+        href: `mailto:${company.salesEmail}`,
+    },
+    {
+        icon: Clock,
+        label: 'Business hours',
+        value: company.hours,
+    },
+];
+
+const helpItems = [
+    {
+        icon: Truck,
+        title: 'Quotations',
+        detail: 'Send the size, construction or standard and the quantity. Written quotations usually go out within one working day.',
+    },
+    {
+        icon: Building2,
+        title: 'Samples & first articles',
+        detail: 'Sample lengths and documented first articles are available before any series order is committed.',
+    },
+];
 
 export default function Contact() {
     return (
-        <div className="container section-padding">
-            <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                <h1 className="section-title text-gradient">Contact Us</h1>
-                <p className="subtitle" style={{ margin: '0 auto' }}>
-                    Have a question or need a bulk quotation? Reach out to our team in Surat.
-                </p>
-            </div>
+        <div>
+            <section className="section-deep" style={{ padding: '4.5rem 0' }}>
+                <div className="container">
+                    <span className="eyebrow">Contact</span>
+                    <h1 className="page-title" style={{ marginBottom: '1.25rem' }}>Talk to our team</h1>
+                    <p className="subtitle" style={{ color: 'rgba(255,255,255,0.76)' }}>
+                        Send a drawing, a standard, or just describe the application. An engineer reads every enquiry
+                        before it gets a price.
+                    </p>
+                </div>
+            </section>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
-                {/* Contact Information */}
-                <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
+            <section className="section">
+                <div
+                    className="container"
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3rem', alignItems: 'start' }}
                 >
-                    <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--border-radius-md)' }}>
-                        <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--color-text-primary)' }}>Get In Touch</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        <div className="card card-pad">
+                            <h2 style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Get in touch</h2>
+                            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
+                                {contactPoints.map((point) => (
+                                    <li key={point.label} style={{ display: 'flex', gap: '0.9rem' }}>
+                                        <point.icon size={20} color="var(--copper)" style={{ flexShrink: 0, marginTop: 3 }} />
+                                        <div>
+                                            <strong style={{ display: 'block', fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--ink-400)', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                                {point.label}
+                                            </strong>
+                                            {point.href ? (
+                                                <a
+                                                    href={point.href}
+                                                    style={{ color: 'var(--ink-900)', fontWeight: 500 }}
+                                                    {...(point.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                                >
+                                                    {point.value}
+                                                </a>
+                                            ) : (
+                                                <span style={{ color: 'var(--ink-700)' }}>{point.value}</span>
+                                            )}
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.5rem', color: 'var(--color-text-secondary)' }}>
-                            <li style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                                <MapPin color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                                <div>
-                                    <strong style={{ display: 'block', color: 'var(--color-text-primary)', marginBottom: '0.25rem' }}>Our Facility</strong>
-                                    GIDC Estate, Surat, Gujarat 395003, India
-                                </div>
-                            </li>
-                            <li style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                                <Phone color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                                <div>
-                                    <strong style={{ display: 'block', color: 'var(--color-text-primary)', marginBottom: '0.25rem' }}>Phone</strong>
-                                    +91 98765 43210
-                                </div>
-                            </li>
-                            <li style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                                <Mail color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                                <div>
-                                    <strong style={{ display: 'block', color: 'var(--color-text-primary)', marginBottom: '0.25rem' }}>Email</strong>
-                                    info@monaindustry.com
-                                </div>
-                            </li>
-                            <li style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                                <Clock color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                                <div>
-                                    <strong style={{ display: 'block', color: 'var(--color-text-primary)', marginBottom: '0.25rem' }}>Business Hours</strong>
-                                    Monday - Saturday: 9:00 AM - 6:30 PM (IST)
-                                </div>
-                            </li>
-                        </ul>
+                        <div className="card card-pad" style={{ background: 'var(--surface-muted)' }}>
+                            <h2 style={{ fontSize: '1.1rem', marginBottom: '1.25rem' }}>What we can help with</h2>
+                            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+                                {helpItems.map((item) => (
+                                    <li key={item.title} style={{ display: 'flex', gap: '0.9rem' }}>
+                                        <item.icon size={19} color="var(--copper)" style={{ flexShrink: 0, marginTop: 3 }} />
+                                        <div>
+                                            <strong style={{ display: 'block', marginBottom: '0.2rem' }}>{item.title}</strong>
+                                            <span className="text-subtle" style={{ fontSize: '0.92rem' }}>{item.detail}</span>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
-                </motion.div>
 
-                {/* Contact Form */}
-                <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--border-radius-md)' }}>
-                        <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--color-text-primary)' }}>Send an Inquiry</h3>
+                    <div className="card card-pad">
+                        <h2 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Send an enquiry</h2>
+                        <p className="text-subtle" style={{ fontSize: '0.94rem', marginBottom: '1.5rem' }}>
+                            Fields marked * are required. Add as much of the specification as you have.
+                        </p>
 
-                        {/* We will instantiate the shared Inquiry Form component here. 
-                We can pass a prop to hide the "specific product selector" if we just want a general contact! 
-                Alternatively, we just render the full robust Inquiry Form. */}
-                        <InquiryForm isGeneralContact={true} />
-
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                gap: '1rem',
+                                padding: '1rem 1.15rem',
+                                marginBottom: '1.75rem',
+                                background: 'var(--surface-muted)',
+                                border: '1px solid var(--line)',
+                                borderRadius: 'var(--radius-md)',
+                            }}
+                        >
+                            <p className="text-subtle" style={{ fontSize: '0.9rem', flex: '1 1 200px', margin: 0 }}>
+                                In a hurry? Message us and get a reply on your phone.
+                            </p>
+                            <a
+                                href={whatsappUrl('Hello Mona Industry, I would like to enquire about your cables.')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-whatsapp"
+                                style={{ padding: '0.65rem 1.25rem', fontSize: '0.9rem' }}
+                            >
+                                <WhatsAppIcon size={17} /> WhatsApp us
+                            </a>
+                        </div>
+                        <InquiryForm />
                     </div>
-                </motion.div>
-            </div>
+                </div>
+            </section>
         </div>
     );
 }

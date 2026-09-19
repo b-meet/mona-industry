@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import productsData from '@/constants/products.json';
 import { CheckCircle2, ChevronDown, Plus, Trash2, Loader2 } from 'lucide-react';
+import { products as catalogProducts } from '@/lib/catalog';
+import { createSubmission } from '@/lib/submissions';
 
 export default function InquiryForm({ initialProduct = null, isGeneralContact = false }) {
     const [formData, setFormData] = useState({
         name: '',
+        company: '',
         phone: '',
         email: '',
         details: '',
@@ -14,92 +16,102 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
 
     const [inquireSpecific, setInquireSpecific] = useState(!!initialProduct);
     const [inquiryProducts, setInquiryProducts] = useState(
-        initialProduct
-            ? [{ product: initialProduct, quantity: '1', id: Date.now() }]
-            : []
+        initialProduct ? [{ product: initialProduct, quantity: '', id: Date.now() }] : []
     );
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState('');
 
-    // Focus state for custom searchable dropdowns
     const [activeDropdownId, setActiveDropdownId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const dropdownRef = useRef(null);
 
-    // Close dropdown on outside click
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setActiveDropdownId(null);
             }
         }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [dropdownRef]);
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const addProductRow = () => {
-        setInquiryProducts([...inquiryProducts, { product: null, quantity: '1', id: Date.now() }]);
+        setInquiryProducts((rows) => [...rows, { product: null, quantity: '', id: Date.now() }]);
     };
 
     const removeProductRow = (idToRemove) => {
-        setInquiryProducts(inquiryProducts.filter(item => item.id !== idToRemove));
-        if (inquiryProducts.length === 1) {
-            setInquireSpecific(false);
-        }
+        setInquiryProducts((rows) => {
+            const next = rows.filter((item) => item.id !== idToRemove);
+            if (next.length === 0) setInquireSpecific(false);
+            return next;
+        });
     };
 
     const updateRowProduct = (rowId, newProduct) => {
-        setInquiryProducts(inquiryProducts.map(item =>
-            item.id === rowId ? { ...item, product: newProduct } : item
-        ));
+        setInquiryProducts((rows) =>
+            rows.map((item) => (item.id === rowId ? { ...item, product: newProduct } : item))
+        );
         setActiveDropdownId(null);
         setSearchTerm('');
     };
 
     const updateRowQuantity = (rowId, newQuantity) => {
-        setInquiryProducts(inquiryProducts.map(item =>
-            item.id === rowId ? { ...item, quantity: newQuantity } : item
-        ));
+        setInquiryProducts((rows) =>
+            rows.map((item) => (item.id === rowId ? { ...item, quantity: newQuantity } : item))
+        );
     };
 
-    const filteredProducts = productsData.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const query = searchTerm.trim().toLowerCase();
+    const filteredProducts = catalogProducts.filter((product) =>
+        [product.name, product.category, product.group]
+            .filter(Boolean)
+            .some((field) => field.toLowerCase().includes(query))
+    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setError('');
 
         try {
-            const payload = {
-                name: formData.name,
-                phone: formData.phone,
-                email: formData.email,
-                details: formData.details,
-                products: inquireSpecific
-                    ? inquiryProducts.map(p => ({
-                        name: p.product?.name || 'Unknown',
-                        quantity: p.quantity
+            const chosenProducts = inquireSpecific
+                ? inquiryProducts
+                    .filter((item) => item.product)
+                    .map((item) => ({
+                        name: item.product.name,
+                        category: item.product.category,
+                        quantity: item.quantity || 'Not specified',
                     }))
-                    : []
-            };
+                : [];
 
-            const res = await fetch('/api/inquiries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+            // A message with no products attached is a general/support enquiry.
+            const type = chosenProducts.length > 0 ? 'enquiry' : 'support';
+
+            await createSubmission({
+                type,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                company: formData.company || null,
+                subject:
+                    chosenProducts.length > 0
+                        ? `Enquiry — ${chosenProducts.map((p) => p.name).join(', ')}`
+                        : 'General enquiry',
+                details: formData.details || null,
+                products: chosenProducts,
             });
-
-            if (!res.ok) throw new Error('Failed to submit');
 
             setSuccess(true);
         } catch (err) {
             console.error(err);
-            alert('There was an error submitting your inquiry. Please try again.');
+            setError('We could not submit your enquiry just now. Please try again, or email us directly.');
         } finally {
             setIsSubmitting(false);
         }
@@ -107,109 +119,146 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
 
     if (success) {
         return (
-            <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', borderRadius: 'var(--border-radius-md)' }}>
-                <CheckCircle2 size={48} color="var(--color-accent-primary)" style={{ margin: '0 auto 1.5rem auto' }} />
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--color-text-primary)' }}>Inquiry Submitted!</h3>
-                <p className="text-subtle">Thank you, {formData.name}. Our commercial team will review your requirements and get back to you shortly.</p>
+            <div style={{ padding: '2.5rem 1rem', textAlign: 'center' }}>
+                <CheckCircle2 size={44} color="var(--copper)" style={{ margin: '0 auto 1.25rem' }} />
+                <h3 style={{ fontSize: '1.35rem', marginBottom: '0.75rem' }}>Enquiry received</h3>
+                <p className="text-subtle" style={{ maxWidth: 440, margin: '0 auto' }}>
+                    Thank you, {formData.name}. Our commercial team will review your requirement and come back with a
+                    written response, usually within one working day.
+                </p>
                 <button
+                    type="button"
                     onClick={() => {
                         setSuccess(false);
-                        setFormData({ name: '', phone: '', email: '', details: '' });
+                        setFormData({ name: '', company: '', phone: '', email: '', details: '' });
                         setInquiryProducts([]);
                         setInquireSpecific(false);
                     }}
                     className="btn-secondary"
-                    style={{ marginTop: '2rem' }}
+                    style={{ marginTop: '1.75rem' }}
                 >
-                    Submit Another Inquiry
+                    Send another enquiry
                 </button>
             </div>
         );
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
-            {/* Contact Info Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div className="grid grid-2" style={{ gap: '1.25rem' }}>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Full Name *</label>
-                    <input required type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-base" placeholder="John Doe" />
+                    <label className="field-label" htmlFor="inq-name">Full name *</label>
+                    <input required id="inq-name" type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-base" placeholder="Your name" autoComplete="name" />
                 </div>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Phone Number *</label>
-                    <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="input-base" placeholder="+91 98765 43210" />
+                    <label className="field-label" htmlFor="inq-company">Company</label>
+                    <input id="inq-company" type="text" name="company" value={formData.company} onChange={handleInputChange} className="input-base" placeholder="Company name" autoComplete="organization" />
                 </div>
             </div>
 
-            <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Email Address *</label>
-                <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-base" placeholder="john@company.com" />
+            <div className="grid grid-2" style={{ gap: '1.25rem' }}>
+                <div>
+                    <label className="field-label" htmlFor="inq-phone">Phone number *</label>
+                    <input required id="inq-phone" type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="input-base" placeholder="+91 00000 00000" autoComplete="tel" />
+                </div>
+                <div>
+                    <label className="field-label" htmlFor="inq-email">Email address *</label>
+                    <input required id="inq-email" type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-base" placeholder="you@company.com" autoComplete="email" />
+                </div>
             </div>
 
-            {/* Dynamic Products Section */}
             {!isGeneralContact && (
-                <div style={{ marginTop: '1rem', padding: '1.5rem', background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--border-radius-md)', border: '1px solid var(--border-glass)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', userSelect: 'none' }}>
+                <div style={{ padding: '1.35rem', background: 'var(--surface-muted)', borderRadius: 'var(--radius-md)', border: '1px solid var(--line)' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', cursor: 'pointer', userSelect: 'none' }}>
                         <input
                             type="checkbox"
                             checked={inquireSpecific}
                             onChange={(e) => {
                                 setInquireSpecific(e.target.checked);
-                                if (e.target.checked && inquiryProducts.length === 0) {
-                                    addProductRow();
-                                }
+                                if (e.target.checked && inquiryProducts.length === 0) addProductRow();
                             }}
-                            style={{ width: '1.25rem', height: '1.25rem', accentColor: 'var(--color-accent-primary)' }}
+                            style={{ width: '1.15rem', height: '1.15rem', accentColor: 'var(--copper)' }}
                         />
-                        <span style={{ fontWeight: '500', color: 'var(--color-text-primary)' }}>Inquire about specific products</span>
+                        <span style={{ fontWeight: 600 }}>Enquire about specific products</span>
                     </label>
 
                     {inquireSpecific && (
-                        <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            {inquiryProducts.map((item, index) => (
-                                <div key={item.id} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-
-                                    {/* Searchable Dropdown */}
-                                    <div style={{ flex: '1 1 250px', minWidth: 0, position: 'relative' }} ref={activeDropdownId === item.id ? dropdownRef : null}>
-                                        <div
+                        <div style={{ marginTop: '1.35rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                            {inquiryProducts.map((item) => (
+                                <div key={item.id} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                                    <div
+                                        style={{ flex: '1 1 240px', minWidth: 0, position: 'relative' }}
+                                        ref={activeDropdownId === item.id ? dropdownRef : null}
+                                    >
+                                        <button
+                                            type="button"
                                             className="input-base"
-                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', backgroundColor: 'var(--color-bg-primary)' }}
+                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textAlign: 'left' }}
                                             onClick={() => {
                                                 setActiveDropdownId(activeDropdownId === item.id ? null : item.id);
                                                 setSearchTerm('');
                                             }}
+                                            aria-expanded={activeDropdownId === item.id}
                                         >
-                                            <span style={{ color: item.product ? 'var(--color-text-primary)' : 'var(--color-text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                {item.product ? item.product.name : 'Select a product...'}
+                                            <span style={{ color: item.product ? 'var(--ink-900)' : 'var(--ink-300)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {item.product ? item.product.name : 'Select a product…'}
                                             </span>
-                                            <ChevronDown size={16} color="var(--color-text-secondary)" />
-                                        </div>
+                                            <ChevronDown size={16} color="var(--ink-400)" />
+                                        </button>
 
-                                        {/* Dropdown Menu */}
                                         {activeDropdownId === item.id && (
-                                            <div className="glass-panel" style={{ position: 'absolute', top: 'calc(100% + 0.5rem)', left: 0, right: 0, zIndex: 10, borderRadius: 'var(--border-radius-md)', padding: '0.5rem', maxHeight: '250px', overflowY: 'auto' }}>
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: 'calc(100% + 0.4rem)',
+                                                    left: 0,
+                                                    right: 0,
+                                                    zIndex: 20,
+                                                    background: 'var(--surface)',
+                                                    border: '1px solid var(--line-strong)',
+                                                    borderRadius: 'var(--radius-md)',
+                                                    boxShadow: 'var(--shadow-md)',
+                                                    padding: '0.5rem',
+                                                    maxHeight: '260px',
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
                                                 <input
                                                     type="text"
                                                     autoFocus
-                                                    placeholder="Search products..."
+                                                    placeholder="Search products…"
                                                     value={searchTerm}
                                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                                    style={{ width: '100%', padding: '0.5rem', background: 'var(--color-bg-secondary)', border: 'none', borderRadius: '4px', color: 'white', marginBottom: '0.5rem', outline: 'none' }}
+                                                    className="input-base"
+                                                    style={{ marginBottom: '0.5rem', padding: '0.55rem 0.75rem', fontSize: '0.9rem' }}
                                                 />
+
                                                 {filteredProducts.length === 0 ? (
-                                                    <div style={{ padding: '0.5rem', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>No products found.</div>
+                                                    <p className="text-subtle" style={{ padding: '0.65rem', fontSize: '0.88rem' }}>
+                                                        No products match that search.
+                                                    </p>
                                                 ) : (
-                                                    <ul style={{ listStyle: 'none' }}>
-                                                        {filteredProducts.map(p => (
-                                                            <li
-                                                                key={p.id}
-                                                                onClick={() => updateRowProduct(item.id, p)}
-                                                                style={{ padding: '0.75rem 0.5rem', cursor: 'pointer', borderRadius: '4px', fontSize: '0.875rem', transition: 'background 0.2s' }}
-                                                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'}
-                                                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                                                            >
-                                                                {p.name}
+                                                    <ul>
+                                                        {filteredProducts.map((product) => (
+                                                            <li key={product.slug}>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => updateRowProduct(item.id, product)}
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        textAlign: 'left',
+                                                                        padding: '0.6rem 0.55rem',
+                                                                        borderRadius: 'var(--radius-xs)',
+                                                                        fontSize: '0.9rem',
+                                                                    }}
+                                                                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-muted)')}
+                                                                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                                                                >
+                                                                    {product.name}
+                                                                    <span className="text-subtle" style={{ display: 'block', fontSize: '0.76rem', marginTop: 2 }}>
+                                                                        {[product.category, product.group].filter(Boolean).join(' · ')}
+                                                                    </span>
+                                                                </button>
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -218,24 +267,28 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
                                         )}
                                     </div>
 
-                                    {/* Quantity Input */}
-                                    <div style={{ flex: '0 0 120px' }}>
+                                    <div style={{ flex: '0 0 140px' }}>
                                         <input
                                             type="text"
                                             value={item.quantity}
                                             onChange={(e) => updateRowQuantity(item.id, e.target.value)}
                                             className="input-base"
-                                            placeholder="Qty / Weight"
+                                            placeholder="Qty / length"
+                                            aria-label="Quantity or length"
                                         />
                                     </div>
 
-                                    {/* Remove Button */}
                                     <button
                                         type="button"
                                         onClick={() => removeProductRow(item.id)}
-                                        style={{ padding: '0.875rem', color: 'var(--color-text-secondary)', background: 'var(--color-bg-primary)', borderRadius: 'var(--border-radius-md)', border: '1px solid var(--border-glass)' }}
-                                        onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#ef4444'; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--border-glass)'; }}
+                                        aria-label="Remove product"
+                                        style={{
+                                            padding: '0.72rem',
+                                            color: 'var(--ink-400)',
+                                            background: 'var(--surface)',
+                                            borderRadius: 'var(--radius-sm)',
+                                            border: '1px solid var(--line-strong)',
+                                        }}
                                     >
                                         <Trash2 size={18} />
                                     </button>
@@ -245,7 +298,8 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
                             <button
                                 type="button"
                                 onClick={addProductRow}
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-accent-primary)', fontSize: '0.875rem', fontWeight: '500', alignSelf: 'flex-start', marginTop: '0.5rem' }}
+                                className="btn-ghost"
+                                style={{ alignSelf: 'flex-start', fontSize: '0.9rem' }}
                             >
                                 <Plus size={16} /> Add another product
                             </button>
@@ -255,24 +309,33 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
             )}
 
             <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Additional Details / Requirements</label>
-                <textarea name="details" value={formData.details} onChange={handleInputChange} className="input-base" placeholder="Please specify grades, urgent delivery needs, etc." />
+                <label className="field-label" htmlFor="inq-details">Requirement details</label>
+                <textarea
+                    id="inq-details"
+                    name="details"
+                    value={formData.details}
+                    onChange={handleInputChange}
+                    className="input-base"
+                    placeholder="Sizes, number of cores, standard to be met, drum lengths, delivery timeline, destination market…"
+                />
             </div>
 
-            <button disabled={isSubmitting} type="submit" className="btn-primary" style={{ marginTop: '1rem', opacity: isSubmitting ? 0.7 : 1 }}>
+            {error && (
+                <p role="alert" style={{ color: 'var(--danger)', fontSize: '0.9rem' }}>{error}</p>
+            )}
+
+            <button disabled={isSubmitting} type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', opacity: isSubmitting ? 0.7 : 1 }}>
                 {isSubmitting ? (
-                    <><Loader2 size={18} className="animate-spin" style={{ animation: 'spin 1s linear infinite' }} /> Submitting Inquiry...</>
+                    <><Loader2 size={18} className="spin" /> Sending…</>
                 ) : (
-                    'Send Inquiry'
+                    'Send enquiry'
                 )}
             </button>
 
-            <style jsx global>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
+            <p className="text-subtle" style={{ fontSize: '0.82rem' }}>
+                We use your details only to answer this enquiry. See our{' '}
+                <a href="/privacy-policy" className="text-copper">privacy policy</a>.
+            </p>
         </form>
     );
 }
