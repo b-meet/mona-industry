@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { CheckCircle2, ChevronDown, Plus, Trash2, Loader2 } from 'lucide-react';
 import { products as catalogProducts } from '@/lib/catalog';
 import { createSubmission } from '@/lib/submissions';
+import { company } from '@/constants/company';
 
 export default function InquiryForm({ initialProduct = null, isGeneralContact = false }) {
     const [formData, setFormData] = useState({
@@ -111,7 +112,7 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
             setSuccess(true);
         } catch (err) {
             console.error(err);
-            setError('We could not submit your enquiry just now. Please try again, or email us directly.');
+            setError('We could not submit your enquiry just now. Please try again, or email us at ');
         } finally {
             setIsSubmitting(false);
         }
@@ -321,7 +322,10 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
             </div>
 
             {error && (
-                <p role="alert" style={{ color: 'var(--danger)', fontSize: '0.9rem' }}>{error}</p>
+                <p role="alert" style={{ color: 'var(--danger)', fontSize: '0.9rem' }}>
+                    {error}
+                    <a href={`mailto:${company.salesEmail}`} className="text-copper">{company.salesEmail}</a>.
+                </p>
             )}
 
             <button disabled={isSubmitting} type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', opacity: isSubmitting ? 0.7 : 1 }}>
