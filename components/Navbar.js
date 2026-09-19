@@ -2,65 +2,86 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { Menu, X, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { company, addressLine } from '@/constants/company';
+
+const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Products', href: '/products' },
+    { name: 'Certifications', href: '/certifications' },
+    { name: 'Contact', href: '/contact' },
+    { name: 'Career', href: '/career' },
+];
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'Products', href: '/products' },
-        { name: 'About', href: '/about' },
-        { name: 'Contact Us', href: '/contact' },
-    ];
+    // Lock the page behind the mobile panel while it is open. Navigation closes
+    // the panel through each link's own onClick.
+    useEffect(() => {
+        document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [mobileMenuOpen]);
+
+    const isActive = (href) =>
+        href === '/' ? pathname === '/' : pathname.startsWith(href);
 
     return (
         <>
-            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
-                {/* Top Banner */}
+            <div className="site-header">
                 <div
-                    className="flex-center"
-                    style={{
-                        height: isScrolled ? '0px' : '36px',
-                        overflow: 'hidden',
-                        background: "var(--color-accent-primary)",
-                        color: "white",
-                        fontSize: "0.875rem",
-                        fontWeight: "500",
-                        transition: 'height 0.3s ease'
-                    }}
+                    className="topbar"
+                    style={{ height: isScrolled ? 0 : 38, opacity: isScrolled ? 0 : 1 }}
+                    aria-hidden={isScrolled}
                 >
-                    Welcome to Mona Industry | High Purity Copper
+                    <div className="container topbar-inner">
+                        <span className="topbar-item topbar-note">
+                            <MapPin size={14} /> {addressLine}
+                        </span>
+                        <div className="topbar-contacts">
+                            <a className="topbar-item" href={`tel:${company.phoneHref}`}>
+                                <Phone size={14} /> {company.phone}
+                            </a>
+                            <a className="topbar-item topbar-email" href={`mailto:${company.email}`}>
+                                <Mail size={14} /> {company.email}
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <header
-                    className={`transition-all duration-300 ${isScrolled ? 'glass-panel shadow-subtle' : 'bg-transparent'}`}
-                    style={{
-                        padding: isScrolled ? '1rem 0' : '1.5rem 0',
-                        width: '100%',
-                    }}
-                >
-                    <div className="container flex-between">
-                        <Link href="/" className="font-display" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-                            MONA<span className="text-gradient">INDUSTRY</span>
+                <header className={`nav-bar ${isScrolled ? 'scrolled' : ''}`}>
+                    <div className="container nav-inner">
+                        <Link href="/" className="brand" aria-label={`${company.name} — home`}>
+                            <span className="brand-mark" aria-hidden="true">MI</span>
+                            <span>
+                                MONA<span className="text-gradient">INDUSTRY</span>
+                                <span className="brand-sub">Wires · Cables · Harnesses</span>
+                            </span>
                         </Link>
 
-                        {/* Desktop Nav */}
-                        <nav className="desktop-nav" style={{ display: 'none' }}>
-                            <ul style={{ display: 'flex', gap: '2.5rem', listStyle: 'none' }}>
+                        <nav className="desktop-nav" aria-label="Primary">
+                            <ul className="nav-list">
                                 {navLinks.map((link) => (
                                     <li key={link.name}>
-                                        <Link href={link.href} className="nav-link" style={{ fontWeight: '500', transition: 'color 0.2s' }}>
+                                        <Link
+                                            href={link.href}
+                                            className={`nav-link ${isActive(link.href) ? 'active' : ''}`}
+                                            aria-current={isActive(link.href) ? 'page' : undefined}
+                                        >
                                             {link.name}
                                         </Link>
                                     </li>
@@ -68,85 +89,78 @@ export default function Navbar() {
                             </ul>
                         </nav>
 
-                        {/* Mobile Menu Toggle */}
+                        <div className="nav-actions">
+                            <Link href="/contact" className="btn-primary" style={{ padding: '0.7rem 1.3rem', fontSize: '0.9rem' }}>
+                                Request a Quote <ArrowRight size={16} />
+                            </Link>
+                        </div>
+
                         <button
                             className="mobile-toggle"
-                            style={{ display: 'block', color: 'var(--color-text-primary)' }}
                             onClick={() => setMobileMenuOpen(true)}
+                            aria-label="Open menu"
+                            aria-expanded={mobileMenuOpen}
                         >
-                            <Menu size={28} />
+                            <Menu size={24} />
                         </button>
                     </div>
                 </header>
             </div>
 
-            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
+                        className="mobile-panel"
                         initial={{ opacity: 0, x: '100%' }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: '100%' }}
-                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        style={{
-                            position: 'fixed',
-                            inset: 0,
-                            backgroundColor: 'var(--color-bg-primary)',
-                            zIndex: 100,
-                            padding: '2rem',
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
+                        transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Site menu"
                     >
-                        <div className="flex-between mb-8" style={{ marginBottom: '3rem' }}>
-                            <Link href="/" className="font-display" style={{ fontSize: '1.5rem', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>
-                                MONA<span className="text-gradient">INDUSTRY</span>
+                        <div className="flex-between" style={{ marginBottom: '1.5rem' }}>
+                            <Link href="/" className="brand" onClick={() => setMobileMenuOpen(false)}>
+                                <span className="brand-mark" aria-hidden="true">MI</span>
+                                <span>MONA<span className="text-gradient">INDUSTRY</span></span>
                             </Link>
                             <button
+                                className="mobile-toggle"
                                 onClick={() => setMobileMenuOpen(false)}
-                                style={{ color: 'var(--color-text-primary)' }}
+                                aria-label="Close menu"
                             >
-                                <X size={32} />
+                                <X size={24} />
                             </button>
                         </div>
 
-                        <nav style={{ flex: 1 }}>
-                            <ul style={{ display: 'flex', flexDirection: 'column', gap: '2rem', listStyle: 'none', fontSize: '1.5rem' }}>
+                        <nav style={{ flex: 1 }} aria-label="Mobile">
+                            <ul>
                                 {navLinks.map((link) => (
-                                    <motion.li
-                                        key={link.name}
-                                        whileHover={{ x: 10 }}
-                                        transition={{ type: 'spring', stiffness: 300 }}
-                                    >
+                                    <li key={link.name}>
                                         <Link
                                             href={link.href}
+                                            className={`mobile-nav-link ${isActive(link.href) ? 'active' : ''}`}
                                             onClick={() => setMobileMenuOpen(false)}
-                                            style={{ color: 'var(--color-text-primary)' }}
                                         >
                                             {link.name}
+                                            <ArrowRight size={18} />
                                         </Link>
-                                    </motion.li>
+                                    </li>
                                 ))}
                             </ul>
                         </nav>
+
+                        <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <Link href="/contact" className="btn-primary btn-block" onClick={() => setMobileMenuOpen(false)}>
+                                Request a Quote
+                            </Link>
+                            <a href={`tel:${company.phoneHref}`} className="btn-secondary btn-block">
+                                <Phone size={16} /> {company.phone}
+                            </a>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {/* Basic inline styles to handle desktop/mobile hiding since we removed tailwind */}
-            <style jsx>{`
-                @media (min-width: 768px) {
-                  .desktop-nav {
-                    display: block !important;
-                  }
-                  .mobile-toggle {
-                    display: none !important;
-                  }
-                }
-                .nav-link:hover {
-                  color: var(--color-accent-primary);
-                }
-            `}</style>
         </>
     );
 }

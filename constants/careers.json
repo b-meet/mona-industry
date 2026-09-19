@@ -1,0 +1,79 @@
+{
+  "_note": "Update the openings below as roles are filled or added. Set \"openings\" to an empty array when nothing is live — the page handles that case.",
+  "openings": [
+    {
+      "title": "Production Engineer — Extrusion",
+      "department": "Manufacturing",
+      "location": "Surat, Gujarat",
+      "type": "Full time",
+      "experience": "3 – 6 years",
+      "summary": "Own line output, compound changeovers and dimensional control across the PVC and XLPO extrusion lines.",
+      "responsibilities": [
+        "Run daily production planning for the extrusion lines",
+        "Hold wall thickness and eccentricity within drawing tolerance",
+        "Drive scrap and changeover-time reduction",
+        "Work with QA on non-conformance closure"
+      ]
+    },
+    {
+      "title": "Quality Assurance Executive",
+      "department": "Quality",
+      "location": "Surat, Gujarat",
+      "type": "Full time",
+      "experience": "2 – 5 years",
+      "summary": "Run the in-house test lab and keep batch records audit-ready against IS, IEC and customer specifications.",
+      "responsibilities": [
+        "Perform conductor resistance, hipot, IR and ageing tests",
+        "Maintain calibration and test records",
+        "Prepare test certificates for dispatch",
+        "Support customer and certification body audits"
+      ]
+    },
+    {
+      "title": "Harness Assembly Supervisor",
+      "department": "Manufacturing",
+      "location": "Surat, Gujarat",
+      "type": "Full time",
+      "experience": "4 – 8 years",
+      "summary": "Lead the harness shop floor: crimp quality, form-board discipline and 100% electrical testing before dispatch.",
+      "responsibilities": [
+        "Supervise cut, strip, crimp and assembly operations",
+        "Monitor crimp height and pull-force against specification",
+        "Train operators to IPC/WHMA-A-620 workmanship classes",
+        "Own first-article documentation for new builds"
+      ]
+    },
+    {
+      "title": "Export Sales Executive",
+      "department": "Sales",
+      "location": "Surat, Gujarat",
+      "type": "Full time",
+      "experience": "3 – 7 years",
+      "summary": "Develop OEM and distributor accounts across our cordset and cable export markets.",
+      "responsibilities": [
+        "Build the pipeline for cordset and cable export enquiries",
+        "Translate customer drawings into internal specifications",
+        "Coordinate samples, approvals and first shipments",
+        "Maintain account relationships after handover"
+      ]
+    }
+  ],
+  "benefits": [
+    {
+      "title": "Learn the whole process",
+      "detail": "Copper drawing, stranding, extrusion, assembly and testing all happen under one roof, so engineers see the full chain rather than one station."
+    },
+    {
+      "title": "Standards-led work",
+      "detail": "Everything is built against a written standard — IS, IEC, JASO, EN or a customer drawing. Decisions are backed by test data, not opinion."
+    },
+    {
+      "title": "Stable, long-term teams",
+      "detail": "Many of our supervisors have been on the floor for over a decade. We hire to keep people, not to churn them."
+    },
+    {
+      "title": "Safety first, always",
+      "detail": "Machine guarding, PPE discipline and electrical safety training are non-negotiable across every shift."
+    }
+  ]
+}
