@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from 'react';
-import { Lock, LogOut, Loader2, Package, Paperclip, RefreshCw, Search, Mail, Phone } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Lock, LogOut, Loader2, Package, Paperclip, RefreshCw, Search, Mail, Phone, X } from 'lucide-react';
 import {
     listSubmissions,
     updateSubmissionStatus,
@@ -15,6 +15,47 @@ import {
 // a build-time value. It keeps the screen out of casual reach — see the note in
 // supabase/migrations for what actually protects the rows.
 const MASTER_PASSWORD = process.env.NEXT_PUBLIC_MASTER_PASSWORD || '';
+
+// Staying signed in across reloads and tabs. This is a convenience only: the
+// flag lives in the browser, so it grants nothing the anon key does not already
+// allow. Change SESSION_HOURS to adjust how long a sign-in lasts.
+const SESSION_KEY = 'mona.master.session';
+const SESSION_HOURS = 10;
+
+function readSession() {
+    try {
+        const raw = window.localStorage.getItem(SESSION_KEY);
+        if (!raw) return false;
+        const { expiresAt } = JSON.parse(raw);
+        if (typeof expiresAt !== 'number' || Date.now() >= expiresAt) {
+            window.localStorage.removeItem(SESSION_KEY);
+            return false;
+        }
+        return true;
+    } catch {
+        // Private mode, blocked storage, or a corrupt value: just sign in again.
+        return false;
+    }
+}
+
+function writeSession() {
+    try {
+        window.localStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify({ expiresAt: Date.now() + SESSION_HOURS * 60 * 60 * 1000 })
+        );
+    } catch {
+        // Not being able to persist is not a reason to block the sign-in.
+    }
+}
+
+function clearSession() {
+    try {
+        window.localStorage.removeItem(SESSION_KEY);
+    } catch {
+        // Nothing to do.
+    }
+}
 
 const TYPE_FILTERS = [
     { key: 'all', label: 'All' },
@@ -83,6 +124,7 @@ export default function MasterDashboard() {
     const [updatingId, setUpdatingId] = useState(null);
     const [typeFilter, setTypeFilter] = useState('all');
     const [search, setSearch] = useState('');
+    const [checkingSession, setCheckingSession] = useState(true);
 
     const load = async () => {
         setLoading(true);
@@ -97,6 +139,22 @@ export default function MasterDashboard() {
         }
     };
 
+    const restoreSession = () => {
+        if (readSession()) {
+            setIsAuthenticated(true);
+            load();
+        }
+        setCheckingSession(false);
+    };
+
+    // Storage is only readable on the client, so this has to run after mount.
+    // Deliberately mount-only: re-running it would re-read a session we have
+    // already resolved.
+    useEffect(() => {
+        restoreSession();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -106,6 +164,7 @@ export default function MasterDashboard() {
         }
 
         if (password === MASTER_PASSWORD) {
+            writeSession();
             setIsAuthenticated(true);
             setError('');
             load();
@@ -148,6 +207,14 @@ export default function MasterDashboard() {
                 .some((field) => String(field).toLowerCase().includes(query));
         });
     }, [rows, typeFilter, search]);
+
+    if (checkingSession) {
+        return (
+            <div className="flex-center section" style={{ minHeight: '60vh', color: 'var(--copper)' }}>
+                <Loader2 size={28} className="spin" />
+            </div>
+        );
+    }
 
     if (!isAuthenticated) {
         return (
@@ -197,7 +264,7 @@ export default function MasterDashboard() {
                             <RefreshCw size={15} /> Refresh
                         </button>
                         <button
-                            onClick={() => { setIsAuthenticated(false); setPassword(''); setRows([]); }}
+                            onClick={() => { clearSession(); setIsAuthenticated(false); setPassword(''); setRows([]); }}
                             className="btn-secondary"
                             style={{ fontSize: '0.88rem', padding: '0.6rem 1.1rem' }}
                         >
@@ -206,40 +273,47 @@ export default function MasterDashboard() {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', marginBottom: '1.5rem' }}>
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        {TYPE_FILTERS.map((filter) => {
-                            const active = typeFilter === filter.key;
-                            return (
+                <div className="sticky-toolbar" style={{ marginBottom: '1.5rem', marginInline: '-1.5rem', borderRadius: 0 }}>
+                    <div className="toolbar-inner" style={{ padding: '0.85rem 1.5rem' }}>
+                        <div className="toolbar-search">
+                            <Search size={16} className="toolbar-search-icon" aria-hidden="true" />
+                            <input
+                                type="search"
+                                className="input-base"
+                                placeholder="Search name, email, company…"
+                                aria-label="Search submissions"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            {search && (
+                                <button
+                                    type="button"
+                                    className="toolbar-clear"
+                                    onClick={() => setSearch('')}
+                                    aria-label="Clear search"
+                                >
+                                    <X size={14} />
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="filter-chips" role="group" aria-label="Filter by type">
+                            {TYPE_FILTERS.map((filter) => (
                                 <button
                                     key={filter.key}
                                     type="button"
                                     onClick={() => setTypeFilter(filter.key)}
-                                    className="chip"
-                                    style={{
-                                        cursor: 'pointer',
-                                        background: active ? 'var(--copper)' : 'var(--surface-muted)',
-                                        color: active ? '#fff' : 'var(--ink-700)',
-                                        borderColor: active ? 'var(--copper)' : 'var(--line)',
-                                        fontWeight: active ? 600 : 400,
-                                    }}
+                                    className="chip filter-chip"
+                                    aria-pressed={typeFilter === filter.key}
                                 >
                                     {filter.label} ({counts[filter.key] || 0})
                                 </button>
-                            );
-                        })}
-                    </div>
+                            ))}
+                        </div>
 
-                    <div style={{ position: 'relative', flex: '1 1 240px', maxWidth: 360 }}>
-                        <Search size={16} color="var(--ink-400)" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }} />
-                        <input
-                            type="search"
-                            className="input-base"
-                            style={{ paddingLeft: 36 }}
-                            placeholder="Search name, email, company…"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
+                        <span className="toolbar-count" aria-live="polite">
+                            {visibleRows.length} shown
+                        </span>
                     </div>
                 </div>
 

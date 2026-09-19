@@ -1,3 +1,5 @@
+import { productCount } from '@/lib/catalog';
+
 /**
  * Single source of truth for company details shown across the site.
  * Update the placeholder contact and registration values below with the
@@ -39,7 +41,7 @@ export const addressLine = [
 
 export const stats = [
     { value: '25+', label: 'Years in cable manufacturing' },
-    { value: '29', label: 'Standard product lines' },
+    { value: String(productCount), label: 'Standard product lines' },
     { value: '100%', label: 'Assemblies electrically tested' },
     { value: '15+', label: 'Export markets served' },
 ];

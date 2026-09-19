@@ -14,6 +14,7 @@ import {
     Plug,
     Cable,
     Workflow,
+    Magnet,
     CircleCheck,
 } from 'lucide-react';
 import Reveal from '@/components/Reveal';
@@ -23,9 +24,12 @@ import { company, stats } from '@/constants/company';
 
 const categoryIcons = {
     'wires-cables': Cable,
+    'enamelled-wire': Magnet,
     'power-cords': Plug,
     'wire-harnesses': Workflow,
 };
+
+const RANGE_WORDS = { 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', 6: 'Six' };
 
 const capabilities = [
     {
@@ -126,8 +130,9 @@ export default function Home() {
 
                         <p className="subtitle" style={{ marginBottom: '2.25rem', color: 'rgba(255,255,255,0.76)', fontSize: '1.14rem' }}>
                             {productCount} standard product lines across automotive and industrial cable, elevator
-                            travelling cable, solar and instrumentation cable, approval-ready power cords and
-                            build-to-print wire harnesses — each made against a named standard and tested before it ships.
+                            travelling cable, solar and instrumentation cable, enamelled winding wire, approval-ready
+                            power cords and build-to-print wire harnesses — each made against a named standard and
+                            tested before it ships.
                         </p>
 
                         <div className="btn-row">
@@ -230,10 +235,10 @@ export default function Home() {
                 <div className="container">
                     <div className="section-head">
                         <span className="eyebrow">Product range</span>
-                        <h2 className="section-title">Three lines, one supply chain</h2>
+                        <h2 className="section-title">{RANGE_WORDS[categories.length] || categories.length} lines, one supply chain</h2>
                         <p className="subtitle">
-                            Cable, cordsets and finished harnesses from the same plant — so a single assembly can be
-                            specified, approved and shipped without coordinating three vendors.
+                            Winding wire, cable, cordsets and finished harnesses from the same plant — so a single
+                            assembly can be specified, approved and shipped without coordinating several vendors.
                         </p>
                     </div>
 

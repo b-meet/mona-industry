@@ -25,14 +25,37 @@
                 "Full colour and stripe identification range"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Annealed bare copper, stranded" },
-                { "label": "Size range", "value": "0.5 – 5.0 mm²" },
-                { "label": "Insulation", "value": "Heat-resistant PVC" },
-                { "label": "Temperature rating", "value": "-30 °C to +80 °C" },
-                { "label": "Voltage rating", "value": "60 V DC" }
+                {
+                  "label": "Conductor",
+                  "value": "Annealed bare copper, stranded"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.5 – 5.0 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "Heat-resistant PVC"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "-30 °C to +80 °C"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "60 V DC"
+                }
               ],
-              "standards": ["JASO D 611", "JIS C 3406"],
-              "applications": ["Passenger vehicle harnesses", "Commercial vehicle wiring", "Two & three wheelers", "Off-highway equipment"]
+              "standards": [
+                "JASO D 611",
+                "JIS C 3406"
+              ],
+              "applications": [
+                "Passenger vehicle harnesses",
+                "Commercial vehicle wiring",
+                "Two & three wheelers",
+                "Off-highway equipment"
+              ]
             },
             {
               "slug": "avs-automotive-cable",
@@ -46,14 +69,37 @@
                 "Compatible with standard automotive terminals"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Annealed bare copper, stranded" },
-                { "label": "Size range", "value": "0.3 – 2.0 mm²" },
-                { "label": "Insulation", "value": "Heat-resistant PVC, thin wall" },
-                { "label": "Temperature rating", "value": "-30 °C to +80 °C" },
-                { "label": "Voltage rating", "value": "60 V DC" }
+                {
+                  "label": "Conductor",
+                  "value": "Annealed bare copper, stranded"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.3 – 2.0 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "Heat-resistant PVC, thin wall"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "-30 °C to +80 °C"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "60 V DC"
+                }
               ],
-              "standards": ["JASO D 611", "JIS C 3406"],
-              "applications": ["Interior and dashboard harnesses", "Door and roof modules", "Lighting circuits", "Sensor and signal runs"]
+              "standards": [
+                "JASO D 611",
+                "JIS C 3406"
+              ],
+              "applications": [
+                "Interior and dashboard harnesses",
+                "Door and roof modules",
+                "Lighting circuits",
+                "Sensor and signal runs"
+              ]
             },
             {
               "slug": "avss-automotive-cable",
@@ -67,14 +113,36 @@
                 "Stable insulation properties after thermal ageing"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Annealed bare copper, stranded" },
-                { "label": "Size range", "value": "0.3 – 2.0 mm²" },
-                { "label": "Insulation", "value": "Heat-resistant PVC, ultra thin wall" },
-                { "label": "Temperature rating", "value": "-30 °C to +80 °C" },
-                { "label": "Voltage rating", "value": "60 V DC" }
+                {
+                  "label": "Conductor",
+                  "value": "Annealed bare copper, stranded"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.3 – 2.0 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "Heat-resistant PVC, ultra thin wall"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "-30 °C to +80 °C"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "60 V DC"
+                }
               ],
-              "standards": ["JASO D 611"],
-              "applications": ["Weight-optimised harnesses", "ECU and control module wiring", "Instrument clusters", "Compact vehicle platforms"]
+              "standards": [
+                "JASO D 611"
+              ],
+              "applications": [
+                "Weight-optimised harnesses",
+                "ECU and control module wiring",
+                "Instrument clusters",
+                "Compact vehicle platforms"
+              ]
             },
             {
               "slug": "din-automotive-cable",
@@ -88,14 +156,37 @@
                 "Long-term thermal endurance at rated class"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Annealed bare copper, stranded" },
-                { "label": "Size range", "value": "0.35 – 6.0 mm²" },
-                { "label": "Insulation", "value": "PVC, class B thermal rating" },
-                { "label": "Temperature rating", "value": "-40 °C to +105 °C" },
-                { "label": "Voltage rating", "value": "60 V DC" }
+                {
+                  "label": "Conductor",
+                  "value": "Annealed bare copper, stranded"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.35 – 6.0 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "PVC, class B thermal rating"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "-40 °C to +105 °C"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "60 V DC"
+                }
               ],
-              "standards": ["ISO 6722", "DIN 72551"],
-              "applications": ["European vehicle platforms", "Agricultural machinery", "Construction equipment", "Industrial vehicle builds"]
+              "standards": [
+                "ISO 6722",
+                "DIN 72551"
+              ],
+              "applications": [
+                "European vehicle platforms",
+                "Agricultural machinery",
+                "Construction equipment",
+                "Industrial vehicle builds"
+              ]
             }
           ]
         },
@@ -117,14 +208,37 @@
                 "Flame-retardant sheath to IEC 60332-1"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible annealed copper, class 5" },
-                { "label": "Cores", "value": "4 – 36 cores, custom layouts available" },
-                { "label": "Size range", "value": "0.75 – 2.5 mm²" },
-                { "label": "Travel height", "value": "Constructions for up to 150 m and above" },
-                { "label": "Voltage rating", "value": "300/500 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible annealed copper, class 5"
+                },
+                {
+                  "label": "Cores",
+                  "value": "4 – 36 cores, custom layouts available"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.75 – 2.5 mm²"
+                },
+                {
+                  "label": "Travel height",
+                  "value": "Constructions for up to 150 m and above"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "300/500 V"
+                }
               ],
-              "standards": ["IEC 60227-6", "IEC 60332-1"],
-              "applications": ["Passenger and goods lifts", "Hospital and service elevators", "Stage and hoist machinery", "Moving gantries"]
+              "standards": [
+                "IEC 60227-6",
+                "IEC 60332-1"
+              ],
+              "applications": [
+                "Passenger and goods lifts",
+                "Hospital and service elevators",
+                "Stage and hoist machinery",
+                "Moving gantries"
+              ]
             },
             {
               "slug": "data-transmission-travelling-cables",
@@ -138,14 +252,36 @@
                 "Drain wire provided for clean earthing at both ends"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible tinned copper, class 5" },
-                { "label": "Screen", "value": "Aluminium-polyester tape with drain wire" },
-                { "label": "Pairs", "value": "1 – 8 screened pairs, combined with power cores" },
-                { "label": "Sheath", "value": "Flame-retardant PVC" },
-                { "label": "Voltage rating", "value": "300/500 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible tinned copper, class 5"
+                },
+                {
+                  "label": "Screen",
+                  "value": "Aluminium-polyester tape with drain wire"
+                },
+                {
+                  "label": "Pairs",
+                  "value": "1 – 8 screened pairs, combined with power cores"
+                },
+                {
+                  "label": "Sheath",
+                  "value": "Flame-retardant PVC"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "300/500 V"
+                }
               ],
-              "standards": ["IEC 60227-6"],
-              "applications": ["Lift control signalling", "Intercom and PA circuits", "Position and display data", "Serial bus links in shafts"]
+              "standards": [
+                "IEC 60227-6"
+              ],
+              "applications": [
+                "Lift control signalling",
+                "Intercom and PA circuits",
+                "Position and display data",
+                "Serial bus links in shafts"
+              ]
             },
             {
               "slug": "data-ip-camera-travelling-cables",
@@ -159,14 +295,37 @@
                 "Strain members rated for full shaft travel"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible tinned copper, class 5" },
-                { "label": "Video element", "value": "Coaxial or screened data pairs" },
-                { "label": "Power cores", "value": "2 – 8 cores, 0.5 – 1.5 mm²" },
-                { "label": "Sheath", "value": "Flame-retardant PVC, LSZH on request" },
-                { "label": "Voltage rating", "value": "300/500 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible tinned copper, class 5"
+                },
+                {
+                  "label": "Video element",
+                  "value": "Coaxial or screened data pairs"
+                },
+                {
+                  "label": "Power cores",
+                  "value": "2 – 8 cores, 0.5 – 1.5 mm²"
+                },
+                {
+                  "label": "Sheath",
+                  "value": "Flame-retardant PVC, LSZH on request"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "300/500 V"
+                }
               ],
-              "standards": ["IEC 60227-6", "IEC 60332-1"],
-              "applications": ["Lift car CCTV", "IP surveillance systems", "Security integration projects", "Building management retrofits"]
+              "standards": [
+                "IEC 60227-6",
+                "IEC 60332-1"
+              ],
+              "applications": [
+                "Lift car CCTV",
+                "IP surveillance systems",
+                "Security integration projects",
+                "Building management retrofits"
+              ]
             },
             {
               "slug": "cat-6-travelling-cables",
@@ -180,14 +339,37 @@
                 "Consistent impedance maintained through the travel loop"
               ],
               "specs": [
-                { "label": "Data element", "value": "4 pair CAT-6, 23/24 AWG" },
-                { "label": "Performance", "value": "Up to 250 MHz" },
-                { "label": "Power cores", "value": "Optional 0.75 – 2.5 mm²" },
-                { "label": "Sheath", "value": "Flame-retardant PVC, LSZH on request" },
-                { "label": "Voltage rating", "value": "300/500 V" }
+                {
+                  "label": "Data element",
+                  "value": "4 pair CAT-6, 23/24 AWG"
+                },
+                {
+                  "label": "Performance",
+                  "value": "Up to 250 MHz"
+                },
+                {
+                  "label": "Power cores",
+                  "value": "Optional 0.75 – 2.5 mm²"
+                },
+                {
+                  "label": "Sheath",
+                  "value": "Flame-retardant PVC, LSZH on request"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "300/500 V"
+                }
               ],
-              "standards": ["ISO/IEC 11801 Cat 6", "IEC 60227-6"],
-              "applications": ["Gigabit links to lift cars", "IP intercom and signage", "Remote lift diagnostics", "Smart building integration"]
+              "standards": [
+                "ISO/IEC 11801 Cat 6",
+                "IEC 60227-6"
+              ],
+              "applications": [
+                "Gigabit links to lift cars",
+                "IP intercom and signage",
+                "Remote lift diagnostics",
+                "Smart building integration"
+              ]
             }
           ]
         },
@@ -204,14 +386,37 @@
             "Tough sheath resists abrasion during installation and withdrawal"
           ],
           "specs": [
-            { "label": "Conductor", "value": "Annealed bare copper, class 2 / class 5" },
-            { "label": "Cores", "value": "3 core flat" },
-            { "label": "Size range", "value": "1.0 – 35 mm²" },
-            { "label": "Insulation", "value": "PVC or XLPE" },
-            { "label": "Voltage rating", "value": "1100 V" }
+            {
+              "label": "Conductor",
+              "value": "Annealed bare copper, class 2 / class 5"
+            },
+            {
+              "label": "Cores",
+              "value": "3 core flat"
+            },
+            {
+              "label": "Size range",
+              "value": "1.0 – 35 mm²"
+            },
+            {
+              "label": "Insulation",
+              "value": "PVC or XLPE"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "1100 V"
+            }
           ],
-          "standards": ["IS 694", "IS 7098"],
-          "applications": ["Borewell and open-well pumps", "Agricultural irrigation", "Municipal water supply", "Industrial dewatering"]
+          "standards": [
+            "IS 694",
+            "IS 7098"
+          ],
+          "applications": [
+            "Borewell and open-well pumps",
+            "Agricultural irrigation",
+            "Municipal water supply",
+            "Industrial dewatering"
+          ]
         },
         {
           "type": "product",
@@ -226,14 +431,37 @@
             "Flame-retardant and FRLS sheath options"
           ],
           "specs": [
-            { "label": "Conductor", "value": "Annealed tinned or bare copper" },
-            { "label": "Configuration", "value": "Pairs or triads, 1 – 48 elements" },
-            { "label": "Size range", "value": "0.5 – 2.5 mm²" },
-            { "label": "Screen", "value": "Aluminium-polyester tape with drain wire" },
-            { "label": "Voltage rating", "value": "300/500 V" }
+            {
+              "label": "Conductor",
+              "value": "Annealed tinned or bare copper"
+            },
+            {
+              "label": "Configuration",
+              "value": "Pairs or triads, 1 – 48 elements"
+            },
+            {
+              "label": "Size range",
+              "value": "0.5 – 2.5 mm²"
+            },
+            {
+              "label": "Screen",
+              "value": "Aluminium-polyester tape with drain wire"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "300/500 V"
+            }
           ],
-          "standards": ["BS 5308", "IS 1554 Part 1"],
-          "applications": ["Refineries and petrochemical plants", "Power generation", "Pharmaceutical process lines", "Water treatment and SCADA"]
+          "standards": [
+            "BS 5308",
+            "IS 1554 Part 1"
+          ],
+          "applications": [
+            "Refineries and petrochemical plants",
+            "Power generation",
+            "Pharmaceutical process lines",
+            "Water treatment and SCADA"
+          ]
         },
         {
           "type": "product",
@@ -248,14 +476,38 @@
             "25-year design life at rated conditions"
           ],
           "specs": [
-            { "label": "Conductor", "value": "Flexible tinned copper, class 5" },
-            { "label": "Size range", "value": "1.5 – 300 mm²" },
-            { "label": "Insulation", "value": "Cross-linked XLPO, halogen free" },
-            { "label": "Temperature rating", "value": "-40 °C to +90 °C (120 °C max conductor)" },
-            { "label": "Voltage rating", "value": "1.5 kV DC" }
+            {
+              "label": "Conductor",
+              "value": "Flexible tinned copper, class 5"
+            },
+            {
+              "label": "Size range",
+              "value": "1.5 – 300 mm²"
+            },
+            {
+              "label": "Insulation",
+              "value": "Cross-linked XLPO, halogen free"
+            },
+            {
+              "label": "Temperature rating",
+              "value": "-40 °C to +90 °C (120 °C max conductor)"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "1.5 kV DC"
+            }
           ],
-          "standards": ["EN 50618 (H1Z2Z2-K)", "IEC 62930", "TUV 2 PfG 1169"],
-          "applications": ["Rooftop PV systems", "Utility-scale solar farms", "Module-to-combiner strings", "Inverter and battery DC runs"]
+          "standards": [
+            "EN 50618 (H1Z2Z2-K)",
+            "IEC 62930",
+            "TUV 2 PfG 1169"
+          ],
+          "applications": [
+            "Rooftop PV systems",
+            "Utility-scale solar farms",
+            "Module-to-combiner strings",
+            "Inverter and battery DC runs"
+          ]
         },
         {
           "type": "product",
@@ -270,14 +522,39 @@
             "Power, control and CAT-6A/6 data variants"
           ],
           "specs": [
-            { "label": "Conductor", "value": "Annealed bare or tinned copper" },
-            { "label": "Types", "value": "LSZH power, control and structured data" },
-            { "label": "Size range", "value": "0.5 – 240 mm² (power)" },
-            { "label": "Fire performance", "value": "IEC 60332-3, IEC 61034, IEC 60754" },
-            { "label": "Voltage rating", "value": "300/500 V to 600/1000 V" }
+            {
+              "label": "Conductor",
+              "value": "Annealed bare or tinned copper"
+            },
+            {
+              "label": "Types",
+              "value": "LSZH power, control and structured data"
+            },
+            {
+              "label": "Size range",
+              "value": "0.5 – 240 mm² (power)"
+            },
+            {
+              "label": "Fire performance",
+              "value": "IEC 60332-3, IEC 61034, IEC 60754"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "300/500 V to 600/1000 V"
+            }
           ],
-          "standards": ["IEC 60332-3", "IEC 61034", "IEC 60754", "ISO/IEC 11801"],
-          "applications": ["Data centre white space", "Server rack power distribution", "UPS and busway tap-offs", "Structured cabling backbones"]
+          "standards": [
+            "IEC 60332-3",
+            "IEC 61034",
+            "IEC 60754",
+            "ISO/IEC 11801"
+          ],
+          "applications": [
+            "Data centre white space",
+            "Server rack power distribution",
+            "UPS and busway tap-offs",
+            "Structured cabling backbones"
+          ]
         },
         {
           "type": "group",
@@ -297,14 +574,36 @@
                 "Full colour range for phase, neutral and earth identification"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible annealed copper, class 5" },
-                { "label": "Size range", "value": "0.75 – 10 mm²" },
-                { "label": "Insulation", "value": "FR / FRLS PVC" },
-                { "label": "Temperature rating", "value": "70 °C continuous" },
-                { "label": "Voltage rating", "value": "1100 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible annealed copper, class 5"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.75 – 10 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "FR / FRLS PVC"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "70 °C continuous"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "1100 V"
+                }
               ],
-              "standards": ["IS 694"],
-              "applications": ["Residential wiring", "Commercial fit-outs", "Conduit and trunking circuits", "Lighting and socket circuits"]
+              "standards": [
+                "IS 694"
+              ],
+              "applications": [
+                "Residential wiring",
+                "Commercial fit-outs",
+                "Conduit and trunking circuits",
+                "Lighting and socket circuits"
+              ]
             }
           ]
         },
@@ -326,14 +625,36 @@
                 "Wide colour range for circuit identification"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible annealed copper, class 5" },
-                { "label": "Size range", "value": "0.5 – 16 mm²" },
-                { "label": "Insulation", "value": "FR / FRLS PVC" },
-                { "label": "Temperature rating", "value": "70 °C continuous" },
-                { "label": "Voltage rating", "value": "1100 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible annealed copper, class 5"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.5 – 16 mm²"
+                },
+                {
+                  "label": "Insulation",
+                  "value": "FR / FRLS PVC"
+                },
+                {
+                  "label": "Temperature rating",
+                  "value": "70 °C continuous"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "1100 V"
+                }
               ],
-              "standards": ["IS 694"],
-              "applications": ["Control panel wiring", "Appliance internal wiring", "Machine build harnessing", "Switchboard interconnections"]
+              "standards": [
+                "IS 694"
+              ],
+              "applications": [
+                "Control panel wiring",
+                "Appliance internal wiring",
+                "Machine build harnessing",
+                "Switchboard interconnections"
+              ]
             },
             {
               "slug": "multicore-flexible-wires",
@@ -347,14 +668,37 @@
                 "Available screened for drive and motor circuits"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Flexible annealed copper, class 5" },
-                { "label": "Cores", "value": "2 – 5 cores" },
-                { "label": "Size range", "value": "0.75 – 6 mm²" },
-                { "label": "Sheath", "value": "FR / FRLS PVC" },
-                { "label": "Voltage rating", "value": "1100 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Flexible annealed copper, class 5"
+                },
+                {
+                  "label": "Cores",
+                  "value": "2 – 5 cores"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.75 – 6 mm²"
+                },
+                {
+                  "label": "Sheath",
+                  "value": "FR / FRLS PVC"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "1100 V"
+                }
               ],
-              "standards": ["IS 694", "IEC 60227"],
-              "applications": ["Portable power tools", "Machinery supply leads", "Appliance cordage", "Pump and motor connections"]
+              "standards": [
+                "IS 694",
+                "IEC 60227"
+              ],
+              "applications": [
+                "Portable power tools",
+                "Machinery supply leads",
+                "Appliance cordage",
+                "Pump and motor connections"
+              ]
             },
             {
               "slug": "multicore-industrial-cables",
@@ -368,14 +712,37 @@
                 "FRLS and LSZH sheath options"
               ],
               "specs": [
-                { "label": "Conductor", "value": "Annealed bare or tinned copper" },
-                { "label": "Cores", "value": "2 – 61 cores" },
-                { "label": "Size range", "value": "0.5 – 6 mm²" },
-                { "label": "Options", "value": "Screened, armoured, FRLS, LSZH" },
-                { "label": "Voltage rating", "value": "600/1000 V" }
+                {
+                  "label": "Conductor",
+                  "value": "Annealed bare or tinned copper"
+                },
+                {
+                  "label": "Cores",
+                  "value": "2 – 61 cores"
+                },
+                {
+                  "label": "Size range",
+                  "value": "0.5 – 6 mm²"
+                },
+                {
+                  "label": "Options",
+                  "value": "Screened, armoured, FRLS, LSZH"
+                },
+                {
+                  "label": "Voltage rating",
+                  "value": "600/1000 V"
+                }
               ],
-              "standards": ["IS 1554 Part 1", "IEC 60502-1"],
-              "applications": ["Plant control circuits", "Switchgear interlocks", "Material handling systems", "Process instrumentation panels"]
+              "standards": [
+                "IS 1554 Part 1",
+                "IEC 60502-1"
+              ],
+              "applications": [
+                "Plant control circuits",
+                "Switchgear interlocks",
+                "Material handling systems",
+                "Process instrumentation panels"
+              ]
             }
           ]
         },
@@ -392,14 +759,143 @@
             "Single and multicore constructions"
           ],
           "specs": [
-            { "label": "Conductor", "value": "Flexible annealed or tinned copper, class 5" },
-            { "label": "Screen", "value": "Tinned copper braid and/or Al-polyester foil" },
-            { "label": "Cores", "value": "1 – 36 cores" },
-            { "label": "Size range", "value": "0.5 – 10 mm²" },
-            { "label": "Voltage rating", "value": "300/500 V to 600/1000 V" }
+            {
+              "label": "Conductor",
+              "value": "Flexible annealed or tinned copper, class 5"
+            },
+            {
+              "label": "Screen",
+              "value": "Tinned copper braid and/or Al-polyester foil"
+            },
+            {
+              "label": "Cores",
+              "value": "1 – 36 cores"
+            },
+            {
+              "label": "Size range",
+              "value": "0.5 – 10 mm²"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "300/500 V to 600/1000 V"
+            }
           ],
-          "standards": ["IEC 60502-1", "IS 1554 Part 1"],
-          "applications": ["Variable frequency drive motor leads", "Audio and signal runs", "Medical and laboratory equipment", "EMI-sensitive instrumentation"]
+          "standards": [
+            "IEC 60502-1",
+            "IS 1554 Part 1"
+          ],
+          "applications": [
+            "Variable frequency drive motor leads",
+            "Audio and signal runs",
+            "Medical and laboratory equipment",
+            "EMI-sensitive instrumentation"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "enamelled-wire",
+      "name": "Enamelled Wire",
+      "icon": "winding",
+      "tagline": "Winding wire for motors and transformers",
+      "description": "Enamelled winding wire in copper and aluminium, insulated with modified polyester, polyesterimide and polyamide-imide films. Thermal class, film build and conductor tolerance are matched to the slot fill and the temperature the winding actually sees in service.",
+      "nodes": [
+        {
+          "type": "product",
+          "slug": "copper-enamelled-wire",
+          "name": "Copper Enamelled Wire",
+          "tagline": "Magnet wire for high slot fill",
+          "description": "Enamelled copper winding wire drawn from electrolytic-grade rod and coated in multiple passes for an even film. Its conductivity gives the highest output per unit of slot area, which is why it stays the default for rotating machines and precision coils.",
+          "features": [
+            "Electrolytic-grade annealed copper conductor",
+            "Thermal classes 130, 155, 180, 200 and 220",
+            "Grade 1, 2 and 3 film builds",
+            "Bondable and self-solderable enamels available",
+            "Tight diameter tolerance for consistent slot fill"
+          ],
+          "specs": [
+            {
+              "label": "Conductor",
+              "value": "Annealed electrolytic copper, round"
+            },
+            {
+              "label": "Size range",
+              "value": "0.05 – 5.00 mm"
+            },
+            {
+              "label": "Enamel",
+              "value": "Polyester, polyesterimide, polyamide-imide overcoat"
+            },
+            {
+              "label": "Thermal class",
+              "value": "130 °C – 220 °C"
+            },
+            {
+              "label": "Film build",
+              "value": "Grade 1 / Grade 2 / Grade 3"
+            }
+          ],
+          "standards": [
+            "IEC 60317",
+            "IS 13730",
+            "NEMA MW 1000",
+            "JIS C 3202"
+          ],
+          "applications": [
+            "Electric motors and alternators",
+            "Transformers and chokes",
+            "Relays and solenoids",
+            "Pumps and power tools",
+            "EV traction and e-mobility coils"
+          ]
+        },
+        {
+          "type": "product",
+          "slug": "aluminium-enamelled-wire",
+          "name": "Aluminium Enamelled Wire",
+          "tagline": "Lighter windings at lower cost",
+          "description": "Enamelled aluminium winding wire on EC-grade conductor, for windings where weight and material cost matter more than absolute slot efficiency. Sized up one or two gauges against copper, it carries the same current at roughly a third of the weight.",
+          "features": [
+            "EC-grade 99.7% aluminium conductor",
+            "Around one third the weight of an equivalent copper winding",
+            "Thermal classes 130, 155, 180 and 200",
+            "Stable enamel adhesion on aluminium oxide",
+            "Supplied with crimping and jointing guidance"
+          ],
+          "specs": [
+            {
+              "label": "Conductor",
+              "value": "Annealed EC-grade aluminium, round"
+            },
+            {
+              "label": "Size range",
+              "value": "0.20 – 5.00 mm"
+            },
+            {
+              "label": "Enamel",
+              "value": "Polyester, polyesterimide, polyamide-imide overcoat"
+            },
+            {
+              "label": "Thermal class",
+              "value": "130 °C – 200 °C"
+            },
+            {
+              "label": "Film build",
+              "value": "Grade 1 / Grade 2"
+            }
+          ],
+          "standards": [
+            "IEC 60317",
+            "IS 13730",
+            "NEMA MW 1000"
+          ],
+          "applications": [
+            "Distribution transformers",
+            "Lighting ballasts",
+            "HVAC and fan motors",
+            "Cost-sensitive coil winding",
+            "Weight-critical assemblies"
+          ]
         }
       ]
     },
@@ -423,14 +919,36 @@
             "Moulded strain relief tested for pull and flex"
           ],
           "specs": [
-            { "label": "Standard", "value": "IS 1293" },
-            { "label": "Rating", "value": "6 A / 16 A, 250 V" },
-            { "label": "Cable", "value": "2 or 3 core flexible, 0.75 – 1.5 mm²" },
-            { "label": "Moulding", "value": "Fully moulded, non-rewirable" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "IS 1293"
+            },
+            {
+              "label": "Rating",
+              "value": "6 A / 16 A, 250 V"
+            },
+            {
+              "label": "Cable",
+              "value": "2 or 3 core flexible, 0.75 – 1.5 mm²"
+            },
+            {
+              "label": "Moulding",
+              "value": "Fully moulded, non-rewirable"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["IS 1293"],
-          "applications": ["Domestic appliances", "IT and office equipment", "Power supplies", "Indian market OEM builds"]
+          "standards": [
+            "IS 1293"
+          ],
+          "applications": [
+            "Domestic appliances",
+            "IT and office equipment",
+            "Power supplies",
+            "Indian market OEM builds"
+          ]
         },
         {
           "type": "product",
@@ -445,14 +963,37 @@
             "Halogen-free compound available on request"
           ],
           "specs": [
-            { "label": "Standard", "value": "CEE 7/7, CEE 7/16" },
-            { "label": "Rating", "value": "16 A, 250 V (2.5 A for Europlug)" },
-            { "label": "Cable", "value": "H03VV-F / H05VV-F, 2 or 3 core" },
-            { "label": "Moulding", "value": "Fully moulded, non-rewirable" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "CEE 7/7, CEE 7/16"
+            },
+            {
+              "label": "Rating",
+              "value": "16 A, 250 V (2.5 A for Europlug)"
+            },
+            {
+              "label": "Cable",
+              "value": "H03VV-F / H05VV-F, 2 or 3 core"
+            },
+            {
+              "label": "Moulding",
+              "value": "Fully moulded, non-rewirable"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["CEE 7", "IEC 60884-1"],
-          "applications": ["EU market appliances", "Consumer electronics", "Medical and lab equipment", "Export OEM programmes"]
+          "standards": [
+            "CEE 7",
+            "IEC 60884-1"
+          ],
+          "applications": [
+            "EU market appliances",
+            "Consumer electronics",
+            "Medical and lab equipment",
+            "Export OEM programmes"
+          ]
         },
         {
           "type": "product",
@@ -467,14 +1008,37 @@
             "Fuse links to BS 1362"
           ],
           "specs": [
-            { "label": "Standard", "value": "BS 1363" },
-            { "label": "Rating", "value": "13 A, 250 V" },
-            { "label": "Fuse", "value": "BS 1362, 3 A / 5 A / 13 A" },
-            { "label": "Cable", "value": "H05VV-F, 3 core" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "BS 1363"
+            },
+            {
+              "label": "Rating",
+              "value": "13 A, 250 V"
+            },
+            {
+              "label": "Fuse",
+              "value": "BS 1362, 3 A / 5 A / 13 A"
+            },
+            {
+              "label": "Cable",
+              "value": "H05VV-F, 3 core"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["BS 1363", "BS 1362"],
-          "applications": ["UK and Ireland appliances", "IT equipment", "Test and measurement gear", "Retail consumer products"]
+          "standards": [
+            "BS 1363",
+            "BS 1362"
+          ],
+          "applications": [
+            "UK and Ireland appliances",
+            "IT equipment",
+            "Test and measurement gear",
+            "Retail consumer products"
+          ]
         },
         {
           "type": "product",
@@ -489,14 +1053,36 @@
             "Straight and right-angle bodies"
           ],
           "specs": [
-            { "label": "Standard", "value": "AS/NZS 3112" },
-            { "label": "Rating", "value": "10 A, 250 V" },
-            { "label": "Cable", "value": "Flexible 2 or 3 core, 0.75 – 1.5 mm²" },
-            { "label": "Moulding", "value": "Fully moulded, non-rewirable" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "AS/NZS 3112"
+            },
+            {
+              "label": "Rating",
+              "value": "10 A, 250 V"
+            },
+            {
+              "label": "Cable",
+              "value": "Flexible 2 or 3 core, 0.75 – 1.5 mm²"
+            },
+            {
+              "label": "Moulding",
+              "value": "Fully moulded, non-rewirable"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["AS/NZS 3112"],
-          "applications": ["Australian and NZ market appliances", "Commercial equipment", "Consumer electronics", "Export OEM programmes"]
+          "standards": [
+            "AS/NZS 3112"
+          ],
+          "applications": [
+            "Australian and NZ market appliances",
+            "Commercial equipment",
+            "Consumer electronics",
+            "Export OEM programmes"
+          ]
         },
         {
           "type": "product",
@@ -511,14 +1097,37 @@
             "Moulded strain relief for heavy handling"
           ],
           "specs": [
-            { "label": "Standard", "value": "SANS 164, BS 546" },
-            { "label": "Rating", "value": "5 A / 15 A / 16 A, 250 V" },
-            { "label": "Cable", "value": "Flexible 3 core, 0.75 – 2.5 mm²" },
-            { "label": "Moulding", "value": "Fully moulded, non-rewirable" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "SANS 164, BS 546"
+            },
+            {
+              "label": "Rating",
+              "value": "5 A / 15 A / 16 A, 250 V"
+            },
+            {
+              "label": "Cable",
+              "value": "Flexible 3 core, 0.75 – 2.5 mm²"
+            },
+            {
+              "label": "Moulding",
+              "value": "Fully moulded, non-rewirable"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["SANS 164", "BS 546"],
-          "applications": ["South African market appliances", "Regional export programmes", "Industrial equipment", "Hospitality and retail products"]
+          "standards": [
+            "SANS 164",
+            "BS 546"
+          ],
+          "applications": [
+            "South African market appliances",
+            "Regional export programmes",
+            "Industrial equipment",
+            "Hospitality and retail products"
+          ]
         },
         {
           "type": "product",
@@ -533,14 +1142,38 @@
             "Polarised and non-polarised variants"
           ],
           "specs": [
-            { "label": "Standard", "value": "NEMA, JIS C 8303" },
-            { "label": "Rating", "value": "10 A / 13 A / 15 A, 125 V" },
-            { "label": "Cable", "value": "SPT-2 / SVT / SJT, 18 – 14 AWG" },
-            { "label": "Moulding", "value": "Fully moulded, non-rewirable" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "NEMA, JIS C 8303"
+            },
+            {
+              "label": "Rating",
+              "value": "10 A / 13 A / 15 A, 125 V"
+            },
+            {
+              "label": "Cable",
+              "value": "SPT-2 / SVT / SJT, 18 – 14 AWG"
+            },
+            {
+              "label": "Moulding",
+              "value": "Fully moulded, non-rewirable"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["NEMA WD-6", "UL 817", "JIS C 8303"],
-          "applications": ["North American appliances", "Japanese market equipment", "IT and server power leads", "Export OEM programmes"]
+          "standards": [
+            "NEMA WD-6",
+            "UL 817",
+            "JIS C 8303"
+          ],
+          "applications": [
+            "North American appliances",
+            "Japanese market equipment",
+            "IT and server power leads",
+            "Export OEM programmes"
+          ]
         },
         {
           "type": "product",
@@ -555,14 +1188,36 @@
             "Temperature classes matched to appliance rating"
           ],
           "specs": [
-            { "label": "Standard", "value": "IEC 60320" },
-            { "label": "Types", "value": "C5, C7, C13, C15, C19" },
-            { "label": "Rating", "value": "2.5 A – 16 A, 250 V" },
-            { "label": "Cable", "value": "Matched to plug end and load" },
-            { "label": "Lead length", "value": "Made to order" }
+            {
+              "label": "Standard",
+              "value": "IEC 60320"
+            },
+            {
+              "label": "Types",
+              "value": "C5, C7, C13, C15, C19"
+            },
+            {
+              "label": "Rating",
+              "value": "2.5 A – 16 A, 250 V"
+            },
+            {
+              "label": "Cable",
+              "value": "Matched to plug end and load"
+            },
+            {
+              "label": "Lead length",
+              "value": "Made to order"
+            }
           ],
-          "standards": ["IEC 60320"],
-          "applications": ["Servers and rack equipment", "PC and monitor leads", "Kettle and hot-condition appliances", "Medical and lab instruments"]
+          "standards": [
+            "IEC 60320"
+          ],
+          "applications": [
+            "Servers and rack equipment",
+            "PC and monitor leads",
+            "Kettle and hot-condition appliances",
+            "Medical and lab instruments"
+          ]
         },
         {
           "type": "product",
@@ -577,14 +1232,36 @@
             "3, 4, 5, 8 and 12 pole configurations"
           ],
           "specs": [
-            { "label": "Standard", "value": "IEC 61076-2-101" },
-            { "label": "Coding", "value": "A / B / D / X" },
-            { "label": "Poles", "value": "3, 4, 5, 8, 12" },
-            { "label": "Protection", "value": "IP67 mated" },
-            { "label": "Cable", "value": "PUR or PVC, shielded options" }
+            {
+              "label": "Standard",
+              "value": "IEC 61076-2-101"
+            },
+            {
+              "label": "Coding",
+              "value": "A / B / D / X"
+            },
+            {
+              "label": "Poles",
+              "value": "3, 4, 5, 8, 12"
+            },
+            {
+              "label": "Protection",
+              "value": "IP67 mated"
+            },
+            {
+              "label": "Cable",
+              "value": "PUR or PVC, shielded options"
+            }
           ],
-          "standards": ["IEC 61076-2-101"],
-          "applications": ["Sensor and actuator wiring", "Industrial Ethernet and PROFINET", "Robotics and automation cells", "Machine vision systems"]
+          "standards": [
+            "IEC 61076-2-101"
+          ],
+          "applications": [
+            "Sensor and actuator wiring",
+            "Industrial Ethernet and PROFINET",
+            "Robotics and automation cells",
+            "Machine vision systems"
+          ]
         },
         {
           "type": "product",
@@ -599,14 +1276,36 @@
             "Sample, pilot and series production support"
           ],
           "specs": [
-            { "label": "Development", "value": "Drawing review, tooling, first article" },
-            { "label": "Branding", "value": "Embossed logo, custom colours, printed cable" },
-            { "label": "Cable", "value": "Any construction from our range" },
-            { "label": "Approvals", "value": "Supported per target market" },
-            { "label": "Volumes", "value": "Pilot batches through series production" }
+            {
+              "label": "Development",
+              "value": "Drawing review, tooling, first article"
+            },
+            {
+              "label": "Branding",
+              "value": "Embossed logo, custom colours, printed cable"
+            },
+            {
+              "label": "Cable",
+              "value": "Any construction from our range"
+            },
+            {
+              "label": "Approvals",
+              "value": "Supported per target market"
+            },
+            {
+              "label": "Volumes",
+              "value": "Pilot batches through series production"
+            }
           ],
-          "standards": ["Per target market"],
-          "applications": ["OEM-specific cordsets", "Branded consumer products", "Equipment with restricted entry space", "Anti-counterfeit keyed connectors"]
+          "standards": [
+            "Per target market"
+          ],
+          "applications": [
+            "OEM-specific cordsets",
+            "Branded consumer products",
+            "Equipment with restricted entry space",
+            "Anti-counterfeit keyed connectors"
+          ]
         },
         {
           "type": "product",
@@ -621,14 +1320,37 @@
             "Cord grips, clamps and strain relief bushes"
           ],
           "specs": [
-            { "label": "Materials", "value": "Tin-plated copper, brass" },
-            { "label": "Wire range", "value": "0.5 – 35 mm²" },
-            { "label": "Insulation", "value": "Nylon or PVC sleeves, colour coded" },
-            { "label": "Crimping", "value": "Applied to spec with calibrated tooling" },
-            { "label": "Packing", "value": "Bulk, reel or kitted per assembly" }
+            {
+              "label": "Materials",
+              "value": "Tin-plated copper, brass"
+            },
+            {
+              "label": "Wire range",
+              "value": "0.5 – 35 mm²"
+            },
+            {
+              "label": "Insulation",
+              "value": "Nylon or PVC sleeves, colour coded"
+            },
+            {
+              "label": "Crimping",
+              "value": "Applied to spec with calibrated tooling"
+            },
+            {
+              "label": "Packing",
+              "value": "Bulk, reel or kitted per assembly"
+            }
           ],
-          "standards": ["DIN 46228", "IEC 60352-2"],
-          "applications": ["Panel and switchboard termination", "Harness assembly", "Appliance manufacturing", "Field maintenance kits"]
+          "standards": [
+            "DIN 46228",
+            "IEC 60352-2"
+          ],
+          "applications": [
+            "Panel and switchboard termination",
+            "Harness assembly",
+            "Appliance manufacturing",
+            "Field maintenance kits"
+          ]
         },
         {
           "type": "product",
@@ -643,14 +1365,37 @@
             "Screened variants for signal and drive circuits"
           ],
           "specs": [
-            { "label": "Cores", "value": "2 – 24 cores" },
-            { "label": "Size range", "value": "0.14 – 2.5 mm²" },
-            { "label": "Sheath", "value": "PVC / PUR / TPE" },
-            { "label": "Geometry", "value": "Coil OD, pitch and tails made to order" },
-            { "label": "Voltage rating", "value": "300/500 V" }
+            {
+              "label": "Cores",
+              "value": "2 – 24 cores"
+            },
+            {
+              "label": "Size range",
+              "value": "0.14 – 2.5 mm²"
+            },
+            {
+              "label": "Sheath",
+              "value": "PVC / PUR / TPE"
+            },
+            {
+              "label": "Geometry",
+              "value": "Coil OD, pitch and tails made to order"
+            },
+            {
+              "label": "Voltage rating",
+              "value": "300/500 V"
+            }
           ],
-          "standards": ["IEC 60227", "IEC 60245"],
-          "applications": ["EV charging leads", "Handheld tools and scanners", "Machine pendant controls", "Vehicle and trailer interconnects"]
+          "standards": [
+            "IEC 60227",
+            "IEC 60245"
+          ],
+          "applications": [
+            "EV charging leads",
+            "Handheld tools and scanners",
+            "Machine pendant controls",
+            "Vehicle and trailer interconnects"
+          ]
         }
       ]
     },
@@ -675,14 +1420,38 @@
             "Form-board routing for repeatable branch geometry"
           ],
           "specs": [
-            { "label": "Assembly types", "value": "Open harness, loomed, sleeved, overbraided" },
-            { "label": "Termination", "value": "Crimp, solder, IDC, ring and blade terminals" },
-            { "label": "Protection", "value": "Convoluted tube, braided sleeve, tape, heat shrink" },
-            { "label": "Testing", "value": "Continuity, insulation resistance, hipot" },
-            { "label": "Volumes", "value": "Prototype, pilot and series production" }
+            {
+              "label": "Assembly types",
+              "value": "Open harness, loomed, sleeved, overbraided"
+            },
+            {
+              "label": "Termination",
+              "value": "Crimp, solder, IDC, ring and blade terminals"
+            },
+            {
+              "label": "Protection",
+              "value": "Convoluted tube, braided sleeve, tape, heat shrink"
+            },
+            {
+              "label": "Testing",
+              "value": "Continuity, insulation resistance, hipot"
+            },
+            {
+              "label": "Volumes",
+              "value": "Prototype, pilot and series production"
+            }
           ],
-          "standards": ["IPC/WHMA-A-620", "IEC 60352-2"],
-          "applications": ["Appliance and white goods", "Industrial machinery", "Automotive and e-mobility", "Elevator and control panels", "Medical and laboratory equipment"]
+          "standards": [
+            "IPC/WHMA-A-620",
+            "IEC 60352-2"
+          ],
+          "applications": [
+            "Appliance and white goods",
+            "Industrial machinery",
+            "Automotive and e-mobility",
+            "Elevator and control panels",
+            "Medical and laboratory equipment"
+          ]
         }
       ]
     }
