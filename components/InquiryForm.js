@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { CheckCircle2, ChevronDown, Plus, Trash2, Loader2 } from 'lucide-react';
 import { products as catalogProducts } from '@/lib/catalog';
+import { createSubmission } from '@/lib/submissions';
 
 export default function InquiryForm({ initialProduct = null, isGeneralContact = false }) {
     const [formData, setFormData] = useState({
@@ -80,31 +81,32 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
         setError('');
 
         try {
-            const payload = {
+            const chosenProducts = inquireSpecific
+                ? inquiryProducts
+                    .filter((item) => item.product)
+                    .map((item) => ({
+                        name: item.product.name,
+                        category: item.product.category,
+                        quantity: item.quantity || 'Not specified',
+                    }))
+                : [];
+
+            // A message with no products attached is a general/support enquiry.
+            const type = chosenProducts.length > 0 ? 'enquiry' : 'support';
+
+            await createSubmission({
+                type,
                 name: formData.name,
-                phone: formData.phone,
                 email: formData.email,
-                details: [formData.company ? `Company: ${formData.company}` : '', formData.details]
-                    .filter(Boolean)
-                    .join('\n'),
-                products: inquireSpecific
-                    ? inquiryProducts
-                        .filter((item) => item.product)
-                        .map((item) => ({
-                            name: item.product.name,
-                            category: item.product.category,
-                            quantity: item.quantity || 'Not specified',
-                        }))
-                    : [],
-            };
-
-            const res = await fetch('/api/inquiries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                phone: formData.phone,
+                company: formData.company || null,
+                subject:
+                    chosenProducts.length > 0
+                        ? `Enquiry — ${chosenProducts.map((p) => p.name).join(', ')}`
+                        : 'General enquiry',
+                details: formData.details || null,
+                products: chosenProducts,
             });
-
-            if (!res.ok) throw new Error('Failed to submit');
 
             setSuccess(true);
         } catch (err) {
