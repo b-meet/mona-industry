@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, after } from 'next/server';
 import {
     getSupabaseAdmin,
     describeDbError,
@@ -6,6 +6,7 @@ import {
     diagnoseSubmissions,
 } from '@/lib/supabase-server';
 import { requestIsAuthenticated } from '@/lib/master-session';
+import { notifySubmission } from '@/lib/notify';
 import {
     SUBMISSION_TYPES,
     MAX_RESUME_BYTES,
@@ -129,16 +130,20 @@ export async function POST(request) {
         // CV that is not there.
         const resumeFields = resume ? await uploadResume(supabase, resume) : {};
 
+        const record = {
+            type: fields.type || 'enquiry',
+            name: clean(fields.name, LIMITS.name),
+            email: clean(fields.email, LIMITS.email),
+            phone: clean(fields.phone, LIMITS.phone),
+            company: clean(fields.company, LIMITS.company),
+            subject: clean(fields.subject, LIMITS.subject),
+            role: clean(fields.role, LIMITS.role),
+            details: clean(fields.details, LIMITS.details),
+        };
+
         const { error } = await supabase.from('inquiries').insert([
             {
-                type: fields.type || 'enquiry',
-                name: clean(fields.name, LIMITS.name),
-                email: clean(fields.email, LIMITS.email),
-                phone: clean(fields.phone, LIMITS.phone),
-                company: clean(fields.company, LIMITS.company),
-                subject: clean(fields.subject, LIMITS.subject),
-                role: clean(fields.role, LIMITS.role),
-                details: clean(fields.details, LIMITS.details),
+                ...record,
                 status: 'New',
                 product_list: products.length ? JSON.stringify(products) : null,
                 payload: { ...(fields.payload || {}), ...resumeFields },
@@ -152,6 +157,13 @@ export async function POST(request) {
             wrapped.code = error.code;
             throw wrapped;
         }
+
+        // After the response, so a slow Bot API call never keeps the visitor
+        // waiting. notifySubmission swallows its own failures: the row is
+        // already stored, and the panel at /master remains the record.
+        after(() =>
+            notifySubmission({ ...record, products, resumeName: resumeFields.resume_name })
+        );
 
         return NextResponse.json({ ok: true }, { status: 201 });
     } catch (err) {
