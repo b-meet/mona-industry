@@ -593,9 +593,7 @@ ol {
 }
 
 .nav-bar {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  background: var(--surface);
   border-bottom: 1px solid var(--line);
   transition: box-shadow var(--transition-normal), padding var(--transition-normal);
 }
