@@ -66,8 +66,12 @@ export default function ApplicationForm({ roles = [], selectedRole = '', onRoleC
             setSuccess(true);
         } catch (err) {
             console.error(err);
+            // A 400 names something the applicant can correct — an oversized
+            // CV, a bad address. Anything else is ours to fix.
             setError(
-                `We could not submit your application just now. Please try again, or email your CV to ${company.careersEmail}.`
+                err?.status === 400 && err.message
+                    ? err.message
+                    : `We could not submit your application just now. Please try again, or email your CV to ${company.careersEmail}.`
             );
         } finally {
             setIsSubmitting(false);
