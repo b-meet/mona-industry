@@ -8,7 +8,7 @@ import { company } from '@/constants/company';
 export const metadata = {
     title: 'Career',
     description:
-        'Open roles at Mona Industry — production, quality, harness assembly and export sales positions at our Surat, Gujarat cable manufacturing plant.',
+        'No roles are open at Mona Industry right now. Send an open application to our Surat, Gujarat cable manufacturing plant and we will keep it on file.',
 };
 
 export default function Career() {
