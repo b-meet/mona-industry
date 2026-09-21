@@ -77,8 +77,29 @@ Submit the form on `/contact`, then open `/master`. The Network tab should show
 a `POST` to `/api/enquiries/` on your own domain and nothing pointing at
 `supabase.co`.
 
-If something fails, the browser shows a plain message and the **server** log
-(Vercel → Deployments → Functions, or your terminal) carries the detail:
+### When the form fails
+
+A failed submission answers `500` with a one-word `code` in the JSON body —
+visible in the browser's Network tab without any access to the server:
+
+| `code` | What it means |
+| --- | --- |
+| `not_configured` | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are not set on the deployment. |
+| `schema` | The table or one of its columns is missing — the migration has not been run, or the schema cache is stale. |
+| `permission` | Row level security rejected the write, which means the key is not the service_role key. |
+| `credentials` | The key is rejected outright. |
+| `unreachable` | The Supabase host could not be reached from the server. |
+| `rejected_by_constraint` | A check constraint refused the row. |
+| `storage` | The CV upload failed. |
+
+For the full picture, sign in at `/master`, then open `/api/enquiries/` in the
+same browser. It reports whether each variable is set, which project host is
+configured, whether the key is really the `service_role` one, whether the table
+is reachable and which columns are missing — naming no secret. It answers `401`
+to anyone not signed in.
+
+The **server** log (Vercel → Deployments → Functions, or your terminal) still
+carries the full sentence:
 
 | Server log says | Fix |
 | --- | --- |
