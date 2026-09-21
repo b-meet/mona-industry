@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseAdmin, describeDbError } from '@/lib/supabase-server';
+import {
+    getSupabaseAdmin,
+    describeDbError,
+    classifyError,
+    diagnoseSubmissions,
+} from '@/lib/supabase-server';
+import { requestIsAuthenticated } from '@/lib/master-session';
 import {
     SUBMISSION_TYPES,
     MAX_RESUME_BYTES,
@@ -139,15 +145,42 @@ export async function POST(request) {
             },
         ]);
 
-        if (error) throw new Error(describeDbError(error, 'Storing the submission'));
+        if (error) {
+            // Carry the PostgREST code across the wrap, so the response can
+            // still say which kind of failure this was.
+            const wrapped = new Error(describeDbError(error, 'Storing the submission'));
+            wrapped.code = error.code;
+            throw wrapped;
+        }
 
         return NextResponse.json({ ok: true }, { status: 201 });
     } catch (err) {
-        // The detail stays in the server log; the visitor gets a plain message.
+        // The detail stays in the server log; the visitor gets a plain message
+        // plus a one-word code, which is enough for whoever runs the site to
+        // tell a missing env var from an unrun migration without a log.
         console.error('[api/enquiries]', err);
         return NextResponse.json(
-            { error: 'We could not save your submission just now.' },
+            {
+                error: 'We could not save your submission just now.',
+                code: classifyError(err),
+            },
             { status: 500 }
         );
     }
+}
+
+/**
+ * Why the form is failing, for whoever runs the site. Behind the /master
+ * session, because it names the project host and the state of the schema.
+ * Sign in at /master, then open /api/enquiries/.
+ */
+export async function GET(request) {
+    if (!requestIsAuthenticated(request)) {
+        return NextResponse.json({ error: 'Not signed in.' }, { status: 401 });
+    }
+
+    return NextResponse.json(await diagnoseSubmissions(), {
+        status: 200,
+        headers: { 'Cache-Control': 'no-store' },
+    });
 }

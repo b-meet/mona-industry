@@ -26,6 +26,8 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
+    // Only our own failures earn the "email us at …" tail.
+    const [errorIsOurs, setErrorIsOurs] = useState(true);
 
     const [activeDropdownId, setActiveDropdownId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -116,7 +118,14 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
             setSuccess(true);
         } catch (err) {
             console.error(err);
-            setError('We could not submit your enquiry just now. Please try again, or email us at ');
+            // A 400 names something the visitor can correct; anything else is
+            // ours, so they get the fallback and the sales address.
+            setError(
+                err?.status === 400 && err.message
+                    ? err.message
+                    : 'We could not submit your enquiry just now. Please try again, or email us at '
+            );
+            setErrorIsOurs(err?.status !== 400);
         } finally {
             setIsSubmitting(false);
         }
@@ -341,7 +350,11 @@ export default function InquiryForm({ initialProduct = null, isGeneralContact = 
             {error && (
                 <p role="alert" style={{ color: 'var(--danger)', fontSize: '0.9rem' }}>
                     {error}
-                    <a href={`mailto:${company.salesEmail}`} className="text-copper">{company.salesEmail}</a>.
+                    {errorIsOurs && (
+                        <>
+                            <a href={`mailto:${company.salesEmail}`} className="text-copper">{company.salesEmail}</a>.
+                        </>
+                    )}
                 </p>
             )}
 
