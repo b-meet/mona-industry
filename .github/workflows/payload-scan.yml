@@ -1,0 +1,26 @@
+# Fails if the loader smuggled into this repo's build config in 2026 comes
+# back (see .github/scripts/payload-scan.sh). Runs on every push to every
+# branch - a force-push is a push - and on every pull request, before anything
+# installs or builds, with no secrets and a read-only token. A red run here
+# means: do not clone, install or build that branch until it is cleaned.
+name: Payload scan
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Payload scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Look for the smuggled loader (bash only - runs none of the repo's code)
+        run: bash .github/scripts/payload-scan.sh
